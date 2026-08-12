@@ -118,7 +118,7 @@ header.top nav a:hover { color: var(--point); }
 .metric-cards .num { font-size: 1.5rem; font-weight: 800; color: var(--point); font-variant-numeric: tabular-nums; }
 .metric-cards .label { font-size: 0.85rem; color: var(--ink-soft); }
 .bridge { font-size: 0.98rem; margin: 8px 0 24px; }
-.deep-shot { border: 1px solid var(--line); border-radius: 8px; width: 100%; display: block; }
+.deep-shot { border: 1px solid var(--line); border-radius: 8px; width: 100%; height: auto; display: block; }
 .deep .visit {
   display: inline-block; margin: 0 0 14px;
   background: var(--point); color: #fff; text-decoration: none;
@@ -132,7 +132,7 @@ header.top nav a:hover { color: var(--point); }
   text-decoration: none; color: var(--ink); display: block;
 }
 .gallery .item:hover { border-color: var(--point); }
-.gallery img { width: 100%; aspect-ratio: 16/10; object-fit: cover; object-position: top; display: block; }
+.gallery img { width: 100%; height: auto; aspect-ratio: 16/10; object-fit: cover; object-position: top; display: block; }
 .gallery .cap { padding: 12px 14px; }
 .gallery .cap b { display: block; font-size: 0.93rem; }
 .gallery .cap small { color: var(--ink-soft); font-size: 0.82rem; }
@@ -192,7 +192,8 @@ footer { border-top: 1px solid var(--line); padding: 28px 0 48px; font-size: 0.8
   header.top nav, .hero .links, .gallery img, .deep-shot, .deep .visit,
   .auto-row .detail, .fade { display: none; }
   .fade { opacity: 1 !important; transform: none !important; display: revert; }
-  section { padding: 14px 0; page-break-inside: avoid; }
+  section { padding: 12px 0; }
+  .auto-row, .metric-cards, .steps li { page-break-inside: avoid; }
   .hero { padding: 10px 0; }
   .hero h1 { font-size: 16px; }
   .auto-row summary { padding: 7px 8px; font-size: 10.5px; }

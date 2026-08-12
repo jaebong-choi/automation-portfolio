@@ -8,13 +8,17 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
 :root {
-  --ink: #1c2733;        /* 본문 잉크 네이비/차콜 */
-  --ink-soft: #4a5866;
-  --line: #dde3e9;
+  --ink: #1d1d29;
+  --ink-soft: #5a5a72;
+  --line: #e7e7f0;
   --bg: #ffffff;
-  --bg-soft: #f6f8fa;
-  --point: #14508c;      /* 포인트 1색 */
-  --point-soft: #eaf1f8;
+  --bg-soft: #f7f7fc;
+  --point: #6d5ae6;       /* 포인트 1색: 바이올렛 */
+  --point-deep: #5747c9;
+  --point-soft: #efedfc;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --shadow-sm: 0 1px 2px rgba(29, 29, 60, 0.05), 0 4px 14px rgba(29, 29, 60, 0.05);
+  --shadow-md: 0 2px 6px rgba(29, 29, 60, 0.06), 0 14px 34px rgba(29, 29, 60, 0.09);
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -26,160 +30,224 @@ body {
   word-break: keep-all;
   font-size: 16px;
 }
-.wrap { max-width: 880px; margin: 0 auto; padding: 0 20px; }
-section { padding: 56px 0; }
-h2 { font-size: 1.35rem; margin-bottom: 6px; }
-.sec-cap { color: var(--ink-soft); font-size: 0.92rem; margin-bottom: 28px; }
+.wrap { max-width: 920px; margin: 0 auto; padding: 0 20px; }
+section { padding: 64px 0; }
+h2 { font-size: 1.6rem; letter-spacing: -0.015em; line-height: 1.3; margin-bottom: 6px; }
+.sec-cap { color: var(--ink-soft); font-size: 0.95rem; margin-bottom: 30px; }
 a { color: var(--point); }
 
-/* 헤더 */
+/* 헤더 — 반투명 스티키 */
 header.top {
-  border-bottom: 1px solid var(--line);
+  position: sticky; top: 0; z-index: 20;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(29, 29, 60, 0.06);
   padding: 14px 0;
   font-size: 0.9rem;
 }
 header.top .wrap { display: flex; justify-content: space-between; align-items: baseline; }
-header.top .name { font-weight: 700; }
-header.top nav a { margin-left: 14px; text-decoration: none; color: var(--ink-soft); }
+header.top .name { font-weight: 700; letter-spacing: -0.01em; }
+header.top nav a { margin-left: 16px; text-decoration: none; color: var(--ink-soft); transition: color 0.2s var(--ease); }
 header.top nav a:hover { color: var(--point); }
 
-/* S1 히어로 */
-.hero { padding: 72px 0 60px; }
-.hero h1 { font-size: 1.9rem; line-height: 1.35; margin-bottom: 14px; }
-.hero .kw { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 22px; }
+/* S1 히어로 — 옅은 파스텔 워시 */
+.hero {
+  padding: 88px 0 72px;
+  background:
+    radial-gradient(900px 460px at 85% -10%, #eceafd 0%, rgba(236, 234, 253, 0) 62%),
+    radial-gradient(700px 380px at 5% 115%, #fdeef4 0%, rgba(253, 238, 244, 0) 58%);
+}
+.hero h1 {
+  font-size: clamp(1.85rem, 4.6vw, 2.6rem);
+  line-height: 1.22;
+  letter-spacing: -0.02em;
+  margin-bottom: 18px;
+}
+.hero .kw { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 26px; }
 .hero .kw span {
-  background: var(--point-soft); color: var(--point);
-  font-size: 0.85rem; font-weight: 600; padding: 4px 12px; border-radius: 4px;
+  background: var(--point-soft); color: var(--point-deep);
+  font-size: 0.85rem; font-weight: 600; padding: 6px 14px; border-radius: 999px;
 }
 .hero .meta-proof {
   border-left: 3px solid var(--point);
-  padding: 10px 14px; background: var(--bg-soft);
-  font-size: 0.95rem; margin-bottom: 26px;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 0 12px 12px 0;
+  font-size: 0.95rem; margin-bottom: 30px;
 }
 .hero .links { display: flex; gap: 10px; flex-wrap: wrap; }
 .hero .links a {
-  border: 1px solid var(--line); border-radius: 6px;
-  padding: 9px 16px; text-decoration: none; font-size: 0.92rem; font-weight: 600;
-  color: var(--ink);
+  border-radius: 999px;
+  padding: 11px 22px; text-decoration: none; font-size: 0.93rem; font-weight: 600;
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), border-color 0.2s;
 }
-.hero .links a:hover { border-color: var(--point); color: var(--point); }
+.hero .links a.primary { background: var(--point); color: #fff; box-shadow: var(--shadow-sm); }
+.hero .links a:not(.primary) { border: 1px solid var(--line); color: var(--ink); background: rgba(255, 255, 255, 0.7); }
+.hero .links a:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--point); }
+.hero .links a.primary:hover { border-color: transparent; }
+.hero .links a:active { transform: scale(0.97); }
 
-/* S2 자동화 실적 */
+/* S2 자동화 실적 — 라운드 카드 컨테이너 */
+.auto-card {
+  border: 1px solid var(--line); border-radius: 20px;
+  box-shadow: var(--shadow-sm); overflow: hidden; background: var(--bg);
+}
 .auto-head, .auto-row summary {
   display: grid;
   grid-template-columns: 2fr 1.6fr 1.8fr 1.1fr;
   gap: 14px; align-items: center;
 }
 .auto-head {
-  font-size: 0.8rem; font-weight: 700; color: var(--ink-soft);
-  text-transform: uppercase; letter-spacing: 0.04em;
-  padding: 0 16px 10px; border-bottom: 2px solid var(--ink);
+  font-size: 0.78rem; font-weight: 700; color: var(--ink-soft);
+  text-transform: uppercase; letter-spacing: 0.05em;
+  padding: 16px 20px 12px; border-bottom: 1px solid var(--line);
+  background: var(--bg-soft);
 }
 .auto-row { border-bottom: 1px solid var(--line); }
+.auto-row:last-child { border-bottom: none; }
 .auto-row summary {
-  list-style: none; cursor: pointer; padding: 18px 16px; font-size: 0.95rem;
+  list-style: none; cursor: pointer; padding: 19px 20px; font-size: 0.95rem;
+  transition: background 0.25s var(--ease);
 }
 .auto-row summary::-webkit-details-marker { display: none; }
 .auto-row summary:hover { background: var(--bg-soft); }
-.auto-row .subject { font-weight: 700; }
+.auto-row summary:active { background: var(--point-soft); }
+.auto-row .subject { font-weight: 700; letter-spacing: -0.01em; }
 .auto-row .tools { color: var(--ink-soft); font-size: 0.88rem; }
 .auto-row .shift { font-variant-numeric: tabular-nums; }
-.auto-row .shift .after { color: var(--point); font-weight: 800; font-size: 1.08rem; }
-.auto-row .save { color: var(--point); font-weight: 800; font-size: 1.08rem; font-variant-numeric: tabular-nums; }
+.auto-row .shift .after { color: var(--point-deep); font-weight: 800; font-size: 1.1rem; letter-spacing: -0.01em; }
+.auto-row .save { color: var(--point-deep); font-weight: 800; font-size: 1.1rem; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
 .auto-row .detail {
-  padding: 4px 16px 20px; font-size: 0.92rem; color: var(--ink-soft);
-  max-width: 700px;
+  padding: 4px 20px 22px; font-size: 0.92rem; color: var(--ink-soft);
+  max-width: 720px;
 }
 .mobile-label { display: none; }
 
 /* S3 딥다이브 */
 .deep { background: var(--bg-soft); }
-.steps { list-style: none; counter-reset: step; margin: 26px 0; }
+.steps { list-style: none; counter-reset: step; margin: 28px 0; }
 .steps li {
   counter-increment: step; position: relative;
-  padding: 0 0 22px 46px; border-left: 2px solid var(--line); margin-left: 15px;
+  padding: 0 0 24px 48px; border-left: 2px solid var(--line); margin-left: 16px;
 }
 .steps li:last-child { border-left-color: transparent; padding-bottom: 0; }
 .steps li::before {
   content: counter(step);
-  position: absolute; left: -16px; top: 0;
-  width: 30px; height: 30px; border-radius: 50%;
+  position: absolute; left: -17px; top: 0;
+  width: 32px; height: 32px; border-radius: 50%;
   background: var(--point); color: #fff;
   font-weight: 700; font-size: 0.85rem;
   display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 10px rgba(109, 90, 230, 0.3);
 }
-.steps b { display: block; }
+.steps b { display: block; letter-spacing: -0.01em; }
 .steps small { color: var(--ink-soft); }
-.metric-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 26px 0; }
-.metric-cards .card {
-  background: var(--bg); border: 1px solid var(--line); border-radius: 8px;
-  padding: 18px; text-align: center;
+
+/* 수치 밴드 — 그라데이션 스탯 */
+.metric-cards {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
+  margin: 28px 0;
+  background: linear-gradient(120deg, var(--point-deep) 0%, var(--point) 60%, #8a75f2 100%);
+  border-radius: 20px; padding: 28px 16px;
+  box-shadow: var(--shadow-md);
 }
-.metric-cards .num { font-size: 1.5rem; font-weight: 800; color: var(--point); font-variant-numeric: tabular-nums; }
-.metric-cards .label { font-size: 0.85rem; color: var(--ink-soft); }
-.bridge { font-size: 0.98rem; margin: 8px 0 24px; }
-.deep-shot { border: 1px solid var(--line); border-radius: 8px; width: 100%; height: auto; display: block; }
+.metric-cards .card { text-align: center; padding: 0 8px; }
+.metric-cards .card + .card { border-left: 1px solid rgba(255, 255, 255, 0.22); }
+.metric-cards .num {
+  font-size: clamp(1.6rem, 3.4vw, 2.1rem); font-weight: 800; color: #fff;
+  letter-spacing: -0.02em; line-height: 1.2; font-variant-numeric: tabular-nums;
+}
+.metric-cards .label { font-size: 0.87rem; color: rgba(255, 255, 255, 0.78); margin-top: 2px; }
+.bridge { font-size: 0.98rem; margin: 8px 0 26px; }
+.deep-shot { border: 1px solid var(--line); border-radius: 18px; width: 100%; height: auto; display: block; box-shadow: var(--shadow-sm); }
 .deep .visit {
-  display: inline-block; margin: 0 0 14px;
+  display: inline-block; margin: 0 0 16px;
   background: var(--point); color: #fff; text-decoration: none;
-  padding: 10px 18px; border-radius: 6px; font-size: 0.92rem; font-weight: 600;
+  padding: 11px 22px; border-radius: 999px; font-size: 0.93rem; font-weight: 600;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
 }
+.deep .visit:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.deep .visit:active { transform: scale(0.97); }
 
 /* S4 갤러리 */
-.gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
 .gallery .item {
-  border: 1px solid var(--line); border-radius: 8px; overflow: hidden;
-  text-decoration: none; color: var(--ink); display: block;
+  border: 1px solid var(--line); border-radius: 18px; overflow: hidden;
+  text-decoration: none; color: var(--ink); display: block; background: var(--bg);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease), border-color 0.2s;
 }
-.gallery .item:hover { border-color: var(--point); }
+.gallery .item:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: rgba(109, 90, 230, 0.4); }
+.gallery .item:active { transform: scale(0.98); }
 .gallery img { width: 100%; height: auto; aspect-ratio: 16/10; object-fit: cover; object-position: top; display: block; }
-.gallery .cap { padding: 12px 14px; }
-.gallery .cap b { display: block; font-size: 0.93rem; }
-.gallery .cap small { color: var(--ink-soft); font-size: 0.82rem; }
+.gallery .cap { padding: 14px 16px 16px; }
+.gallery .cap b { display: block; font-size: 0.94rem; letter-spacing: -0.01em; }
+.gallery .cap small { color: var(--ink-soft); font-size: 0.83rem; }
 .gallery .tag {
-  display: inline-block; margin-top: 8px; font-size: 0.75rem; font-weight: 600;
-  color: var(--point); background: var(--point-soft); padding: 2px 8px; border-radius: 3px;
+  display: inline-block; margin-top: 10px; font-size: 0.75rem; font-weight: 600;
+  color: var(--point-deep); background: var(--point-soft); padding: 3px 10px; border-radius: 999px;
 }
 
 /* S5 도구 */
-.stack dl { display: grid; grid-template-columns: 140px 1fr; gap: 10px 18px; font-size: 0.95rem; }
+.stack dl { display: grid; grid-template-columns: 140px 1fr; gap: 12px 18px; font-size: 0.95rem; }
 .stack dt { font-weight: 700; }
 .stack dd { color: var(--ink-soft); }
-.way { margin-top: 22px; padding: 14px 18px; background: var(--bg-soft); border-radius: 8px; font-size: 0.95rem; }
+.way {
+  margin-top: 24px; padding: 16px 20px;
+  background: var(--bg-soft); border: 1px solid var(--line); border-radius: 16px;
+  font-size: 0.95rem;
+}
 
 /* S6 검증 습관 */
-.quality p { max-width: 680px; margin-bottom: 18px; }
+.quality p { max-width: 700px; margin-bottom: 20px; }
 .quality ul { list-style: none; }
-.quality li { padding: 8px 0 8px 24px; position: relative; border-top: 1px solid var(--line); }
-.quality li::before { content: ""; position: absolute; left: 4px; top: 17px; width: 8px; height: 8px; background: var(--point); }
+.quality li { padding: 10px 0 10px 26px; position: relative; border-top: 1px solid var(--line); }
+.quality li::before {
+  content: ""; position: absolute; left: 4px; top: 19px;
+  width: 8px; height: 8px; border-radius: 50%; background: var(--point);
+}
 
 /* S7 푸터 */
-footer { border-top: 1px solid var(--line); padding: 28px 0 48px; font-size: 0.88rem; color: var(--ink-soft); }
+footer { border-top: 1px solid var(--line); padding: 30px 0 52px; font-size: 0.88rem; color: var(--ink-soft); }
 
 /* 스크롤 페이드 */
-.fade { opacity: 0; transform: translateY(14px); transition: opacity 0.5s ease, transform 0.5s ease; }
+.fade { opacity: 0; transform: translateY(16px); transition: opacity 0.6s var(--ease), transform 0.6s var(--ease); }
 .fade.in { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .fade { opacity: 1; transform: none; transition: none; }
+  .hero .links a, .deep .visit, .gallery .item { transition: none; }
+}
+@media (prefers-reduced-transparency: reduce) {
+  header.top { background: #fff; backdrop-filter: none; -webkit-backdrop-filter: none; }
 }
 :focus-visible { outline: 2px solid var(--point); outline-offset: 2px; }
 
 /* 모바일: 표 → 카드 */
 @media (max-width: 720px) {
+  section { padding: 48px 0; }
   header.top .wrap { flex-wrap: wrap; gap: 4px 0; }
   header.top nav a { margin: 0 12px 0 0; }
-  .hero h1 { font-size: 1.5rem; }
+  .hero { padding: 56px 0 48px; }
+  .auto-card { border: none; box-shadow: none; border-radius: 0; overflow: visible; background: transparent; }
   .auto-head { display: none; }
-  .auto-row { border: 1px solid var(--line); border-radius: 8px; margin-bottom: 12px; }
+  .auto-row {
+    border: 1px solid var(--line); border-radius: 16px; margin-bottom: 12px;
+    background: var(--bg); box-shadow: var(--shadow-sm); overflow: hidden;
+  }
+  .auto-row:last-child { border-bottom: 1px solid var(--line); }
   .auto-row summary { display: block; padding: 16px; }
   .auto-row summary > span { display: block; }
   .auto-row .tools { margin: 4px 0; }
+  .auto-row .detail { padding: 4px 16px 18px; }
   .mobile-label {
     display: inline-block; font-size: 0.72rem; font-weight: 700; color: var(--ink-soft);
     text-transform: uppercase; letter-spacing: 0.04em; margin-right: 6px;
   }
-  .metric-cards { grid-template-columns: 1fr; }
+  .metric-cards { grid-template-columns: 1fr; gap: 18px; padding: 24px 16px; }
+  .metric-cards .card + .card { border-left: none; border-top: 1px solid rgba(255, 255, 255, 0.22); padding-top: 18px; }
   .gallery { grid-template-columns: 1fr; }
   .stack dl { grid-template-columns: 1fr; gap: 2px; }
   .stack dt { margin-top: 10px; }
@@ -191,42 +259,46 @@ footer { border-top: 1px solid var(--line); padding: 28px 0 48px; font-size: 0.8
 /* 인쇄: A4 1~2장 요약 */
 @media print {
   body { font-size: 11px; line-height: 1.45; }
+  header.top { position: static; background: none; backdrop-filter: none; }
   header.top nav, .hero .links, .gallery img, .deep-shot, .deep .visit,
   .auto-row .detail, .fade { display: none; }
   .fade { opacity: 1 !important; transform: none !important; display: revert; }
   section { padding: 8px 0; }
+  .auto-card, .auto-row, .gallery .item, .metric-cards, .deep .visit { box-shadow: none; }
+  .auto-card { border-radius: 0; border: none; }
+  .auto-head { background: none; border-bottom: 2px solid var(--ink); }
   .auto-row, .metric-cards, .steps li { page-break-inside: avoid; }
   h2 { font-size: 13px; margin-bottom: 2px; }
   .sec-cap { margin-bottom: 8px; }
+  .hero { padding: 10px 0; background: none; }
+  .hero h1 { font-size: 16px; }
   .hero .kw { margin-bottom: 8px; }
-  .hero .meta-proof { margin-bottom: 8px; }
+  .hero .meta-proof { margin-bottom: 8px; background: none; }
+  .auto-row summary { padding: 7px 8px; font-size: 10.5px; }
+  .auto-head { padding: 0 8px 4px; }
+  .deep { background: none; }
   .steps { margin: 8px 0; }
   .steps li { padding: 0 0 6px 40px; }
-  .metric-cards { gap: 6px; }
-  .metric-cards .num { font-size: 13px; }
+  .steps li::before { box-shadow: none; }
+  .metric-cards { background: none; border: 1px solid #ccc; border-radius: 8px; gap: 6px; margin: 10px 0; padding: 8px; }
+  .metric-cards .card + .card { border-left: 1px solid #ddd; }
+  .metric-cards .num { font-size: 13px; color: var(--point-deep); }
+  .metric-cards .label { color: #555; }
   .bridge { margin: 4px 0 8px; }
+  .gallery { grid-template-columns: 1fr; gap: 4px; }
+  .gallery .item { border: none; border-radius: 0; }
+  .gallery .cap { padding: 2px 0; }
   .gallery .cap br { display: none; }
+  .gallery .cap b::after, .hero .meta-proof a::after, .deep-links a::after {
+    content: " — " attr(data-url); font-weight: 400; color: #555;
+  }
+  .gallery .tag { display: none; }
   .stack dl { gap: 2px 14px; }
   .way { margin-top: 8px; padding: 6px 10px; }
   .quality p { margin-bottom: 6px; }
   .quality li { padding: 3px 0 3px 16px; }
   .quality li::before { top: 8px; width: 6px; height: 6px; }
   footer { padding: 8px 0; }
-  .hero { padding: 10px 0; }
-  .hero h1 { font-size: 16px; }
-  .auto-row summary { padding: 7px 8px; font-size: 10.5px; }
-  .auto-head { padding: 0 8px 4px; }
-  .deep { background: none; }
-  .metric-cards { margin: 10px 0; }
-  .metric-cards .card { padding: 8px; }
-  .steps li { padding-bottom: 8px; }
-  .gallery { grid-template-columns: 1fr; gap: 4px; }
-  .gallery .item { border: none; }
-  .gallery .cap { padding: 2px 0; }
-  .gallery .cap b::after, .hero .meta-proof a::after, .deep-links a::after {
-    content: " — " attr(data-url); font-weight: 400; color: #555;
-  }
-  .gallery .tag { display: none; }
   a { color: var(--ink); text-decoration: none; }
 }
 </style>
@@ -259,7 +331,7 @@ footer { border-top: 1px solid var(--line); padding: 28px 0 48px; font-size: 0.8
       <a href="https://github.com/jaebong-choi/automation-portfolio" data-url="github.com/jaebong-choi/automation-portfolio">제작 과정 repo</a>
     </p>
     <div class="links">
-      <a href="mailto:cjbong23@hanmail.net">이메일</a>
+      <a class="primary" href="mailto:cjbong23@hanmail.net">이메일</a>
       <a href="https://jaebong-portfolio.vercel.app/">종합 포트폴리오</a>
       <a href="https://github.com/jaebong-choi">GitHub</a>
     </div>
@@ -272,59 +344,61 @@ footer { border-top: 1px solid var(--line); padding: 28px 0 48px; font-size: 0.8
     <h2>자동화 실적</h2>
     <p class="sec-cap">유학 기업 재직 중 실무로 만든 자동화입니다. 행을 누르면 검증 방법이 열립니다.</p>
 
-    <div class="auto-head" aria-hidden="true">
-      <span>자동화 대상</span><span>사용 도구</span><span>Before → After</span><span>절감 효과</span>
+    <div class="auto-card">
+      <div class="auto-head" aria-hidden="true">
+        <span>자동화 대상</span><span>사용 도구</span><span>Before → After</span><span>절감 효과</span>
+      </div>
+
+      <details class="auto-row">
+        <summary>
+          <span class="subject">인스타 카드뉴스(1080×1350) 세트 제작</span>
+          <span class="tools">Claude 스킬 + Python/Playwright (HTML→PNG 렌더링)</span>
+          <span class="shift"><span class="mobile-label">Before → After</span>수작업 3~4시간 → <span class="after">1시간</span></span>
+          <span class="save"><span class="mobile-label">절감</span>세트당 2~3시간</span>
+        </summary>
+        <p class="detail">비자·정책 뉴스를 카드뉴스 세트로 만드는 작업을 스킬로 고정했습니다. 브랜드 색·레이아웃 규칙을 스킬에 담아 두고 HTML로 조판한 뒤 Playwright로 렌더링합니다. 발행 전에 수치·날짜를 원문과 대조하고 렌더링 결과를 전수 확인합니다.</p>
+      </details>
+
+      <details class="auto-row">
+        <summary>
+          <span class="subject">국가별 유학 안내 사이트 데이터 구축·배포</span>
+          <span class="tools">Claude Cowork (조사·교차검증) + Claude Code (구현)</span>
+          <span class="shift"><span class="mobile-label">Before → After</span>수작업 3일 → <span class="after">4~5시간</span></span>
+          <span class="save"><span class="mobile-label">절감</span>사이트 5종 배포 완주</span>
+        </summary>
+        <p class="detail">국가별 진학 요건·학비 데이터를 Cowork로 수집하고, 각 대학 공식 페이지와 대조해 검증한 뒤 Claude Code로 구현해 GitHub Pages에 배포했습니다. 미국·영국·호주·캐나다 진단 사이트와 허브까지 5종을 완주했습니다.</p>
+      </details>
+
+      <details class="auto-row">
+        <summary>
+          <span class="subject">네이버 블로그 원고 생산 (검수 포함)</span>
+          <span class="tools">Claude 스킬 (SEO 구조화 + 문체 검수)</span>
+          <span class="shift"><span class="mobile-label">Before → After</span>편당 2~3시간 → <span class="after">30분</span></span>
+          <span class="save"><span class="mobile-label">절감</span>편당 약 2시간</span>
+        </summary>
+        <p class="detail">네이버 SEO 구조와 문체 규칙을 스킬로 만들어 초안을 뽑고, AI 문형을 걸러내는 검수 단계를 거쳐 발행합니다. 인용하는 수치는 출처 페이지에서 직접 확인합니다.</p>
+      </details>
+
+      <details class="auto-row">
+        <summary>
+          <span class="subject">쇼츠용 9:16 데이터 그래픽 제작</span>
+          <span class="tools">Claude 스킬 + Playwright 렌더링</span>
+          <span class="shift"><span class="mobile-label">Before → After</span>컷당 2~3시간 → <span class="after">30분</span></span>
+          <span class="save"><span class="mobile-label">절감</span>컷당 약 2시간</span>
+        </summary>
+        <p class="detail">쇼츠 대본의 화면 지시를 표·그래프·타임라인 카드(1080×1920)로 변환합니다. 서술형 정보를 데이터 그래픽으로 재구성하고, 수치는 대본의 출처와 대조한 뒤 렌더링합니다.</p>
+      </details>
+
+      <details class="auto-row">
+        <summary>
+          <span class="subject">출국 전 오리엔테이션 반복 안내</span>
+          <span class="tools">Notion 시스템 (영국·캐나다·호주 3개국)</span>
+          <span class="shift"><span class="mobile-label">Before → After</span>구두 안내 1시간/건 → <span class="after">셀프 안내</span></span>
+          <span class="save"><span class="mobile-label">절감</span>건당 40분</span>
+        </summary>
+        <p class="detail">상담원이 매번 1시간씩 구두로 반복하던 출국 전 안내를 국가별 Notion 페이지로 시스템화했습니다. 학생이 스스로 읽고 확인 사항만 상담으로 남겨, 건당 확인 시간은 20분 수준으로 줄었습니다.</p>
+      </details>
     </div>
-
-    <details class="auto-row">
-      <summary>
-        <span class="subject">인스타 카드뉴스(1080×1350) 세트 제작</span>
-        <span class="tools">Claude 스킬 + Python/Playwright (HTML→PNG 렌더링)</span>
-        <span class="shift"><span class="mobile-label">Before → After</span>수작업 3~4시간 → <span class="after">1시간</span></span>
-        <span class="save"><span class="mobile-label">절감</span>세트당 2~3시간</span>
-      </summary>
-      <p class="detail">비자·정책 뉴스를 카드뉴스 세트로 만드는 작업을 스킬로 고정했습니다. 브랜드 색·레이아웃 규칙을 스킬에 담아 두고 HTML로 조판한 뒤 Playwright로 렌더링합니다. 발행 전에 수치·날짜를 원문과 대조하고 렌더링 결과를 전수 확인합니다.</p>
-    </details>
-
-    <details class="auto-row">
-      <summary>
-        <span class="subject">국가별 유학 안내 사이트 데이터 구축·배포</span>
-        <span class="tools">Claude Cowork (조사·교차검증) + Claude Code (구현)</span>
-        <span class="shift"><span class="mobile-label">Before → After</span>수작업 3일 → <span class="after">4~5시간</span></span>
-        <span class="save"><span class="mobile-label">절감</span>사이트 5종 배포 완주</span>
-      </summary>
-      <p class="detail">국가별 진학 요건·학비 데이터를 Cowork로 수집하고, 각 대학 공식 페이지와 대조해 검증한 뒤 Claude Code로 구현해 GitHub Pages에 배포했습니다. 미국·영국·호주·캐나다 진단 사이트와 허브까지 5종을 완주했습니다.</p>
-    </details>
-
-    <details class="auto-row">
-      <summary>
-        <span class="subject">네이버 블로그 원고 생산 (검수 포함)</span>
-        <span class="tools">Claude 스킬 (SEO 구조화 + 문체 검수)</span>
-        <span class="shift"><span class="mobile-label">Before → After</span>편당 2~3시간 → <span class="after">30분</span></span>
-        <span class="save"><span class="mobile-label">절감</span>편당 약 2시간</span>
-      </summary>
-      <p class="detail">네이버 SEO 구조와 문체 규칙을 스킬로 만들어 초안을 뽑고, AI 문형을 걸러내는 검수 단계를 거쳐 발행합니다. 인용하는 수치는 출처 페이지에서 직접 확인합니다.</p>
-    </details>
-
-    <details class="auto-row">
-      <summary>
-        <span class="subject">쇼츠용 9:16 데이터 그래픽 제작</span>
-        <span class="tools">Claude 스킬 + Playwright 렌더링</span>
-        <span class="shift"><span class="mobile-label">Before → After</span>컷당 2~3시간 → <span class="after">30분</span></span>
-        <span class="save"><span class="mobile-label">절감</span>컷당 약 2시간</span>
-      </summary>
-      <p class="detail">쇼츠 대본의 화면 지시를 표·그래프·타임라인 카드(1080×1920)로 변환합니다. 서술형 정보를 데이터 그래픽으로 재구성하고, 수치는 대본의 출처와 대조한 뒤 렌더링합니다.</p>
-    </details>
-
-    <details class="auto-row">
-      <summary>
-        <span class="subject">출국 전 오리엔테이션 반복 안내</span>
-        <span class="tools">Notion 시스템 (영국·캐나다·호주 3개국)</span>
-        <span class="shift"><span class="mobile-label">Before → After</span>구두 안내 1시간/건 → <span class="after">셀프 안내</span></span>
-        <span class="save"><span class="mobile-label">절감</span>건당 40분</span>
-      </summary>
-      <p class="detail">상담원이 매번 1시간씩 구두로 반복하던 출국 전 안내를 국가별 Notion 페이지로 시스템화했습니다. 학생이 스스로 읽고 확인 사항만 상담으로 남겨, 건당 확인 시간은 20분 수준으로 줄었습니다.</p>
-    </details>
   </div>
 </section>
 

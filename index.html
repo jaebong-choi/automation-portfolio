@@ -294,6 +294,7 @@ footer { border-top: 1px solid var(--line); padding: 30px 0 52px; font-size: 0.8
 
 /* 인쇄: A4 1~2장 요약 */
 @media print {
+  @page { margin: 8mm 12mm; }
   body { font-size: 10.5px; line-height: 1.35; }
   .map { display: none; }
   header.top { position: static; background: none; backdrop-filter: none; }

@@ -62,8 +62,9 @@ header.top nav a:hover { color: var(--point); }
   font-size: clamp(1.85rem, 4.6vw, 2.6rem);
   line-height: 1.22;
   letter-spacing: -0.02em;
-  margin-bottom: 18px;
+  margin-bottom: 12px;
 }
+.hero .thesis { font-size: 1.05rem; color: var(--ink-soft); max-width: 580px; margin: 0 0 20px; }
 .hero .kw { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 26px; }
 .hero .kw span {
   background: var(--point-soft); color: var(--point-deep);
@@ -88,6 +89,21 @@ header.top nav a:hover { color: var(--point); }
 .hero .links a.primary:hover { border-color: transparent; }
 .hero .links a:active { transform: scale(0.97); }
 
+/* 연구행정 매핑 스트립 */
+.map { padding: 34px 0; border-bottom: 1px solid var(--line); }
+.map h2 { font-size: 1.05rem; margin-bottom: 16px; }
+.map-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.map-grid a {
+  display: block; text-decoration: none; color: var(--ink);
+  border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px;
+  background: var(--bg); box-shadow: var(--shadow-sm);
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease), border-color 0.2s;
+}
+.map-grid a:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: rgba(109, 90, 230, 0.4); }
+.map-grid b { display: block; font-size: 0.9rem; letter-spacing: -0.01em; }
+.map-grid small { color: var(--ink-soft); font-size: 0.8rem; }
+.map-grid .arrow { color: var(--point-deep); font-weight: 700; font-size: 0.8rem; }
+
 /* S2 자동화 실적 — 라운드 카드 컨테이너 */
 .auto-card {
   border: 1px solid var(--line); border-radius: 20px;
@@ -107,21 +123,38 @@ header.top nav a:hover { color: var(--point); }
 .auto-row { border-bottom: 1px solid var(--line); }
 .auto-row:last-child { border-bottom: none; }
 .auto-row summary {
-  list-style: none; cursor: pointer; padding: 19px 20px; font-size: 0.95rem;
+  list-style: none; cursor: pointer; padding: 19px 48px 19px 20px; font-size: 0.95rem;
   transition: background 0.25s var(--ease);
+  position: relative;
 }
 .auto-row summary::-webkit-details-marker { display: none; }
+.auto-row summary::after {
+  content: ""; position: absolute; right: 22px; top: 50%;
+  width: 8px; height: 8px;
+  border: solid var(--ink-soft); border-width: 0 2px 2px 0;
+  transform: translateY(-70%) rotate(45deg);
+  transition: transform 0.25s var(--ease);
+}
+.auto-row[open] summary::after { transform: translateY(-30%) rotate(-135deg); }
 .auto-row summary:hover { background: var(--bg-soft); }
 .auto-row summary:active { background: var(--point-soft); }
 .auto-row .subject { font-weight: 700; letter-spacing: -0.01em; }
 .auto-row .tools { color: var(--ink-soft); font-size: 0.88rem; }
 .auto-row .shift { font-variant-numeric: tabular-nums; }
 .auto-row .shift .after { color: var(--point-deep); font-weight: 800; font-size: 1.1rem; letter-spacing: -0.01em; }
-.auto-row .save { color: var(--point-deep); font-weight: 800; font-size: 1.1rem; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+.auto-row .save { color: var(--point-deep); font-weight: 800; font-size: 1.1rem; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; text-align: right; }
+.auto-head span:last-child { text-align: right; }
 .auto-row .detail {
   padding: 4px 20px 22px; font-size: 0.92rem; color: var(--ink-soft);
   max-width: 720px;
 }
+.auto-row .detail > b { color: var(--point-deep); }
+.auto-row .demo-link {
+  display: inline-block; margin-top: 6px; font-size: 0.8rem; font-weight: 600;
+  color: var(--point-deep); background: var(--point-soft);
+  padding: 3px 12px; border-radius: 999px; text-decoration: none;
+}
+.auto-row .demo-link:hover { background: var(--point); color: #fff; }
 .mobile-label { display: none; }
 
 /* S3 딥다이브 */
@@ -158,7 +191,7 @@ header.top nav a:hover { color: var(--point); }
   font-size: clamp(1.6rem, 3.4vw, 2.1rem); font-weight: 800; color: #fff;
   letter-spacing: -0.02em; line-height: 1.2; font-variant-numeric: tabular-nums;
 }
-.metric-cards .label { font-size: 0.87rem; color: rgba(255, 255, 255, 0.78); margin-top: 2px; }
+.metric-cards .label { font-size: 0.87rem; color: rgba(255, 255, 255, 0.95); margin-top: 2px; }
 .bridge { font-size: 0.98rem; margin: 8px 0 26px; }
 .deep-shot { border: 1px solid var(--line); border-radius: 18px; width: 100%; height: auto; display: block; box-shadow: var(--shadow-sm); }
 .deep .visit {
@@ -238,10 +271,13 @@ footer { border-top: 1px solid var(--line); padding: 30px 0 52px; font-size: 0.8
     background: var(--bg); box-shadow: var(--shadow-sm); overflow: hidden;
   }
   .auto-row:last-child { border-bottom: 1px solid var(--line); }
-  .auto-row summary { display: block; padding: 16px; }
+  .auto-row summary { display: block; padding: 16px 44px 16px 16px; }
+  .auto-row summary::after { top: 26px; }
   .auto-row summary > span { display: block; }
   .auto-row .tools { margin: 4px 0; }
+  .auto-row .save { text-align: left; }
   .auto-row .detail { padding: 4px 16px 18px; }
+  .map-grid { grid-template-columns: repeat(2, 1fr); }
   .mobile-label {
     display: inline-block; font-size: 0.72rem; font-weight: 700; color: var(--ink-soft);
     text-transform: uppercase; letter-spacing: 0.04em; margin-right: 6px;
@@ -258,11 +294,28 @@ footer { border-top: 1px solid var(--line); padding: 30px 0 52px; font-size: 0.8
 
 /* 인쇄: A4 1~2장 요약 */
 @media print {
-  body { font-size: 11px; line-height: 1.45; }
+  body { font-size: 10.5px; line-height: 1.35; }
+  .map { display: none; }
   header.top { position: static; background: none; backdrop-filter: none; }
-  header.top nav, .hero .links, .gallery img, .deep-shot, .deep .visit,
-  .auto-row .detail, .fade { display: none; }
+  header.top nav, .gallery img, .deep-shot, .fade { display: none; }
   .fade { opacity: 1 !important; transform: none !important; display: revert; }
+  .hero .links { display: block; }
+  .hero .links a, .hero .links a.primary, .deep .visit {
+    display: inline; padding: 0; border: 0; background: none; box-shadow: none;
+    color: var(--ink); font-weight: 400; font-size: 10px;
+  }
+  .hero .links a::after { content: " — " attr(data-url); color: #555; }
+  .hero .links a + a::before { content: " · "; }
+  .deep .visit { font-weight: 700; }
+  .auto-row .detail { display: none; }
+  .auto-row summary::after { display: none; }
+  .auto-row summary { padding-right: 8px; }
+  .auto-row .demo-link { background: none; padding: 0; }
+  .auto-row .demo-link::after { content: " — " attr(data-url); font-size: 9px; font-weight: 400; color: #555; }
+  .map { padding: 8px 0; border-bottom: none; }
+  .map-grid { grid-template-columns: repeat(2, 1fr); gap: 4px; }
+  .map-grid a { border: none; box-shadow: none; padding: 2px 0; }
+  .map-grid .arrow { display: none; }
   section { padding: 8px 0; }
   .auto-card, .auto-row, .gallery .item, .metric-cards, .deep .visit { box-shadow: none; }
   .auto-card { border-radius: 0; border: none; }
@@ -277,8 +330,9 @@ footer { border-top: 1px solid var(--line); padding: 30px 0 52px; font-size: 0.8
   .auto-row summary { padding: 7px 8px; font-size: 10.5px; }
   .auto-head { padding: 0 8px 4px; }
   .deep { background: none; }
+  section { padding: 6px 0; }
   .steps { margin: 8px 0; }
-  .steps li { padding: 0 0 6px 40px; }
+  .steps li { padding: 0 0 4px 40px; }
   .steps li::before { box-shadow: none; }
   .metric-cards { background: none; border: 1px solid #ccc; border-radius: 8px; gap: 6px; margin: 10px 0; padding: 8px; }
   .metric-cards .card + .card { border-left: 1px solid #ddd; }
@@ -296,10 +350,13 @@ footer { border-top: 1px solid var(--line); padding: 30px 0 52px; font-size: 0.8
   .save a::after { font-size: 9px; font-weight: 400; }
   .stack dl { gap: 2px 14px; }
   .way { margin-top: 8px; padding: 6px 10px; }
-  .quality p { margin-bottom: 6px; }
-  .quality li { padding: 3px 0 3px 16px; }
-  .quality li::before { top: 8px; width: 6px; height: 6px; }
-  footer { padding: 8px 0; }
+  .quality p { margin-bottom: 4px; }
+  .quality li { padding: 2px 0 2px 16px; }
+  .quality li::before { top: 7px; width: 6px; height: 6px; }
+  footer { padding: 4px 0 0; }
+  .way { margin-top: 4px; }
+  .sec-cap { margin-bottom: 6px; }
+  .stack dl { font-size: 10px; }
   a { color: var(--ink); text-decoration: none; }
 }
 </style>
@@ -321,20 +378,50 @@ footer { border-top: 1px solid var(--line); padding: 30px 0 52px; font-size: 0.8
 <!-- S1 히어로 -->
 <section class="hero">
   <div class="wrap">
-    <h1>AI 업무 자동화 · 데이터 조사/검증 · 콘텐츠 운영</h1>
+    <h1>AI 업무 자동화 · 데이터 조사/검증 · 문서·산출물 검수</h1>
+    <p class="thesis">반복 업무를 AI로 자동화하고, 결과물을 검증해 배포까지 완주합니다.</p>
     <div class="kw">
-      <span>반복 업무 자동화</span>
-      <span>데이터 조사·검증</span>
-      <span>산출물 완주(배포)</span>
+      <span>사이트 5종 배포 완주</span>
+      <span>커스텀 스킬 약 20종 운영</span>
+      <span>블로그 편당 약 2시간 절감</span>
     </div>
     <p class="meta-proof">
       이 페이지 자체도 Claude Code로 1시간 만에 제작·배포되었습니다.
       <a href="https://github.com/jaebong-choi/automation-portfolio" data-url="github.com/jaebong-choi/automation-portfolio">제작 과정 repo</a>
     </p>
     <div class="links">
-      <a class="primary" href="mailto:cjbong23@hanmail.net">이메일</a>
-      <a href="https://jaebong-portfolio.vercel.app/general/">종합 포트폴리오</a>
-      <a href="https://github.com/jaebong-choi">GitHub</a>
+      <a class="primary" href="mailto:cjbong23@hanmail.net" data-url="cjbong23@hanmail.net">이메일</a>
+      <a href="https://jaebong-portfolio.vercel.app/general/" data-url="jaebong-portfolio.vercel.app/general">종합 포트폴리오</a>
+      <a href="https://github.com/jaebong-choi" data-url="github.com/jaebong-choi">GitHub</a>
+    </div>
+  </div>
+</section>
+
+<!-- 연구행정 매핑 스트립 -->
+<section class="map">
+  <div class="wrap">
+    <h2>연구행정에 이렇게 연결됩니다</h2>
+    <div class="map-grid">
+      <a href="ref-check/">
+        <b>산출물·레퍼런스 검수</b>
+        <small>인용–원문 대조 리포트</small>
+        <span class="arrow">데모 →</span>
+      </a>
+      <a href="submit-check/">
+        <b>원고 점검·서식 변환</b>
+        <small>투고 전 규정 대조 리포트</small>
+        <span class="arrow">데모 →</span>
+      </a>
+      <a href="#auto">
+        <b>반복 업무 자동화</b>
+        <small>실측 절감 수치 6행</small>
+        <span class="arrow">실적 표 →</span>
+      </a>
+      <a href="#quality">
+        <b>정확성·완주 원칙</b>
+        <small>서류 실무에서 온 검증 습관</small>
+        <span class="arrow">원칙 →</span>
+      </a>
     </div>
   </div>
 </section>
@@ -357,7 +444,7 @@ footer { border-top: 1px solid var(--line); padding: 30px 0 52px; font-size: 0.8
           <span class="shift"><span class="mobile-label">Before → After</span>수작업 3~4시간 → <span class="after">1시간</span></span>
           <span class="save"><span class="mobile-label">절감</span>세트당 2~3시간</span>
         </summary>
-        <p class="detail">비자·정책 뉴스를 카드뉴스 세트로 만드는 작업을 스킬로 고정했습니다. 브랜드 색·레이아웃 규칙을 스킬에 담아 두고 HTML로 조판한 뒤 Playwright로 렌더링합니다. 발행 전에 수치·날짜를 원문과 대조하고 렌더링 결과를 전수 확인합니다.</p>
+        <p class="detail"><b>검증:</b> 발행 전에 수치·날짜를 원문과 대조하고 렌더링 결과를 전수 확인합니다. 비자·정책 뉴스를 카드뉴스 세트로 만드는 작업을 스킬로 고정 — 브랜드 색·레이아웃 규칙을 스킬에 담아 HTML로 조판한 뒤 Playwright로 렌더링합니다.</p>
       </details>
 
       <details class="auto-row">
@@ -367,7 +454,7 @@ footer { border-top: 1px solid var(--line); padding: 30px 0 52px; font-size: 0.8
           <span class="shift"><span class="mobile-label">Before → After</span>수작업 3일 → <span class="after">4~5시간</span></span>
           <span class="save"><span class="mobile-label">절감</span>사이트 5종 배포 완주</span>
         </summary>
-        <p class="detail">국가별 진학 요건·학비 데이터를 Cowork로 수집하고, 각 대학 공식 페이지와 대조해 검증한 뒤 Claude Code로 구현해 GitHub Pages에 배포했습니다. 미국·영국·호주·캐나다 진단 사이트와 허브까지 5종을 완주했습니다.</p>
+        <p class="detail"><b>검증:</b> 수집한 진학 요건·학비 데이터를 각 대학 공식 페이지와 대조해 확인한 뒤 반영했습니다. Cowork로 조사하고 Claude Code로 구현해 GitHub Pages에 배포 — 미국·영국·호주·캐나다 진단 사이트와 허브까지 5종을 완주했습니다.</p>
       </details>
 
       <details class="auto-row">
@@ -377,7 +464,7 @@ footer { border-top: 1px solid var(--line); padding: 30px 0 52px; font-size: 0.8
           <span class="shift"><span class="mobile-label">Before → After</span>편당 2~3시간 → <span class="after">30분</span></span>
           <span class="save"><span class="mobile-label">절감</span>편당 약 2시간</span>
         </summary>
-        <p class="detail">네이버 SEO 구조와 문체 규칙을 스킬로 만들어 초안을 뽑고, AI 문형을 걸러내는 검수 단계를 거쳐 발행합니다. 인용하는 수치는 출처 페이지에서 직접 확인합니다.</p>
+        <p class="detail"><b>검증:</b> 인용하는 수치는 출처 페이지에서 직접 확인하고, AI 문형을 걸러내는 검수 단계를 거쳐 발행합니다. 네이버 SEO 구조와 문체 규칙을 스킬로 만들어 초안을 뽑습니다.</p>
       </details>
 
       <details class="auto-row">
@@ -387,7 +474,7 @@ footer { border-top: 1px solid var(--line); padding: 30px 0 52px; font-size: 0.8
           <span class="shift"><span class="mobile-label">Before → After</span>컷당 2~3시간 → <span class="after">30분</span></span>
           <span class="save"><span class="mobile-label">절감</span>컷당 약 2시간</span>
         </summary>
-        <p class="detail">쇼츠 대본의 화면 지시를 표·그래프·타임라인 카드(1080×1920)로 변환합니다. 서술형 정보를 데이터 그래픽으로 재구성하고, 수치는 대본의 출처와 대조한 뒤 렌더링합니다.</p>
+        <p class="detail"><b>검증:</b> 수치는 대본의 출처와 대조한 뒤 렌더링합니다. 쇼츠 대본의 화면 지시를 표·그래프·타임라인 카드(1080×1920)로 변환 — 서술형 정보를 데이터 그래픽으로 재구성합니다.</p>
       </details>
 
       <details class="auto-row">
@@ -397,17 +484,27 @@ footer { border-top: 1px solid var(--line); padding: 30px 0 52px; font-size: 0.8
           <span class="shift"><span class="mobile-label">Before → After</span>구두 안내 1시간/건 → <span class="after">셀프 안내</span></span>
           <span class="save"><span class="mobile-label">절감</span>건당 40분</span>
         </summary>
-        <p class="detail">상담원이 매번 1시간씩 구두로 반복하던 출국 전 안내를 국가별 Notion 페이지로 시스템화했습니다. 학생이 스스로 읽고 확인 사항만 상담으로 남겨, 건당 확인 시간은 20분 수준으로 줄었습니다.</p>
+        <p class="detail"><b>검증:</b> 학생이 스스로 읽고 확인 사항만 상담으로 남겨, 건당 확인 시간은 20분 수준으로 줄었습니다. 상담원이 매번 1시간씩 구두로 반복하던 출국 전 안내를 국가별 Notion 페이지로 코드 없이 시스템화했습니다.</p>
       </details>
 
-      <details class="auto-row">
+      <details class="auto-row demo">
         <summary>
-          <span class="subject">논문 인용–원문 대조 검수 (데모)</span>
+          <span class="subject">논문 인용–원문 대조 검수 (데모)<br><a class="demo-link" href="ref-check/" data-url="jaebong-choi.github.io/automation-portfolio/ref-check">데모 페이지 →</a></span>
           <span class="tools">Claude (원고·원문 대조)</span>
           <span class="shift"><span class="mobile-label">Before → After</span>수작업 전수 대조 → <span class="after">자동 리포트</span></span>
-          <span class="save"><span class="mobile-label">절감</span><a href="ref-check/" data-url="jaebong-choi.github.io/automation-portfolio/ref-check">데모 보기</a></span>
+          <span class="save"><span class="mobile-label">절감</span>가상 인용 6건 → 리포트 1건</span>
         </summary>
-        <p class="detail">원고 속 인용 문장을 추출해 참고문헌 원문 구절과 나란히 대조하고, 수치·연도·주장 불일치를 판정 근거와 함께 리포트합니다. 샘플 원고 6건으로 워크플로를 시연했으며, 최종 판단은 사람이 합니다.</p>
+        <p class="detail"><b>검증:</b> 판정마다 원문 구절과 근거를 함께 남기고, 최종 판단은 사람이 합니다. 가상 원고 1건의 인용 6건을 참고문헌 원문과 대조해 수치·통계·조건 불일치를 리포트로 만든 데모입니다.</p>
+      </details>
+
+      <details class="auto-row demo">
+        <summary>
+          <span class="subject">저널 투고 전 점검·서식 변환 (데모)<br><a class="demo-link" href="submit-check/" data-url="jaebong-choi.github.io/automation-portfolio/submit-check">데모 페이지 →</a></span>
+          <span class="tools">Claude (서식 변환·점검 리포트)</span>
+          <span class="shift"><span class="mobile-label">Before → After</span>수작업 점검 → <span class="after">자동 점검 리포트</span></span>
+          <span class="save"><span class="mobile-label">절감</span>가상 원고 1건 · 10항목 점검</span>
+        </summary>
+        <p class="detail"><b>검증:</b> 점검 항목마다 통과/수정 필요 판정과 근거를 한 줄씩 남깁니다. 가상 원고 1건을 가상 저널 투고 규정에 대조해 참고문헌 서식 변환(저자–연도 → 번호식)과 투고 전 10항목 점검 리포트를 만든 데모입니다.</p>
       </details>
     </div>
   </div>
@@ -447,6 +544,14 @@ footer { border-top: 1px solid var(--line); padding: 30px 0 52px; font-size: 0.8
     <h2>제작물</h2>
     <p class="sec-cap">전부 실제 배포되어 있는 링크입니다.</p>
     <div class="gallery">
+      <a class="item" href="ref-check/">
+        <img src="assets/ref-demo.webp" alt="논문 인용–원문 대조 검수 데모" loading="lazy" width="1280" height="800">
+        <div class="cap"><b data-url="jaebong-choi.github.io/automation-portfolio/ref-check">인용–원문 대조 검수 데모</b><small>가상 샘플 6건 검수 리포트 시연</small><br><span class="tag">Claude 데모</span></div>
+      </a>
+      <a class="item" href="submit-check/">
+        <img src="assets/submit-demo.webp" alt="저널 투고 전 점검 데모" loading="lazy" width="1280" height="800">
+        <div class="cap"><b data-url="jaebong-choi.github.io/automation-portfolio/submit-check">투고 전 점검·서식 변환 데모</b><small>가상 원고 규정 대조 리포트 시연</small><br><span class="tag">Claude 데모</span></div>
+      </a>
       <a class="item" href="https://jaebong-choi.github.io/uk-study-guide/">
         <img src="assets/uk.webp" alt="영국 대학 진학 안내" loading="lazy" width="1280" height="800">
         <div class="cap"><b data-url="jaebong-choi.github.io/uk-study-guide">영국 대학 진학 안내</b><small>47개교 학부 진학 경로 진단</small><br><span class="tag">Cowork + Code</span></div>
@@ -487,12 +592,12 @@ footer { border-top: 1px solid var(--line); padding: 30px 0 52px; font-size: 0.8
       <dt>운영</dt><dd>Notion</dd>
       <dt>콘텐츠</dt><dd>Adobe Premiere Pro · Photoshop</dd>
     </dl>
-    <p class="way">반복 작업은 재사용 가능한 스킬(지침 모듈)로 만들어 두고, 산출물은 배포까지 완주해 링크로 남깁니다.</p>
+    <p class="way">커스텀 스킬은 코드가 아니라 자연어 지침으로 만든 자동화 모듈입니다. 반복 작업은 스킬로 고정해 두고, 산출물은 배포까지 완주해 링크로 남깁니다.</p>
   </div>
 </section>
 
 <!-- S6 검증·품질 습관 -->
-<section class="quality fade">
+<section id="quality" class="quality fade">
   <div class="wrap">
     <h2>검증·품질 습관</h2>
     <p class="sec-cap">AI가 만든 결과물도 검증은 사람이 합니다.</p>
@@ -501,6 +606,7 @@ footer { border-top: 1px solid var(--line); padding: 30px 0 52px; font-size: 0.8
       <li>수치·요건은 원출처(공식 페이지)와 대조한다</li>
       <li>숫자와 날짜는 이중으로 확인한다</li>
       <li>배포·제출까지 끝내야 완료로 친다</li>
+      <li>샘플 확인이 아니라 전수 확인 — 발행 전 결과물을 한 건씩 끝까지 본다</li>
     </ul>
   </div>
 </section>
@@ -508,7 +614,7 @@ footer { border-top: 1px solid var(--line); padding: 30px 0 52px; font-size: 0.8
 <!-- S7 푸터 -->
 <footer>
   <div class="wrap">
-    <p><a href="mailto:cjbong23@hanmail.net">cjbong23@hanmail.net</a> · 최종 업데이트: 2026-08-12</p>
+    <p><a href="mailto:cjbong23@hanmail.net">cjbong23@hanmail.net</a> · 최종 업데이트: 2026-08-13</p>
   </div>
 </footer>
 

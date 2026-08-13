@@ -157,8 +157,24 @@ header.top nav a:hover { color: var(--point); }
 .artifacts img {
   height: 180px; width: auto; display: block;
   border: 1px solid var(--line); border-radius: 10px;
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease), border-color 0.2s;
+}
+.artifacts a, .artifacts button.zoom {
+  display: block; padding: 0; border: 0; background: none; cursor: pointer; font: inherit; text-align: left;
+}
+.artifacts a:hover img, .artifacts button.zoom:hover img {
+  transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: rgba(109, 90, 230, 0.45);
 }
 .artifacts figcaption { font-size: 0.8rem; color: var(--ink-soft); margin-top: 6px; max-width: 340px; }
+.artifacts figcaption .hint { color: var(--point-deep); font-weight: 600; }
+dialog.lightbox {
+  margin: auto;
+  border: none; border-radius: 12px; padding: 10px;
+  background: var(--bg); max-width: min(92vw, 1100px);
+  box-shadow: var(--shadow-md);
+}
+dialog.lightbox::backdrop { background: rgba(15, 15, 30, 0.72); }
+dialog.lightbox img { max-width: 100%; max-height: 82vh; display: block; border-radius: 8px; cursor: zoom-out; }
 .auto-head, .auto-row summary {
   display: grid;
   grid-template-columns: 2fr 1.6fr 1.8fr 1.1fr;
@@ -588,18 +604,27 @@ footer { border-top: 1px solid var(--line); padding: 30px 0 52px; font-size: 0.8
     <p class="sec-cap" data-en="Deliverables and work logs from the job.">실무에서 실제로 쓰던 시스템과 작업 기록입니다.</p>
     <div class="art-row">
       <figure>
-        <img src="assets/art-ot.webp" alt="출국 전 오리엔테이션 진행 모습" loading="lazy">
-        <figcaption data-en="Running a pre-departure orientation (July 2023)">출국 전 오리엔테이션을 진행하던 모습 (2023. 7)</figcaption>
+        <button class="zoom" type="button" aria-label="사진 크게 보기">
+          <img src="assets/art-ot.webp" alt="출국 전 오리엔테이션 진행 모습" loading="lazy">
+        </button>
+        <figcaption data-en="Running a pre-departure orientation (July 2023) <span class='hint'>· enlarge</span>">출국 전 오리엔테이션을 진행하던 모습 (2023. 7) <span class="hint">· 크게 보기</span></figcaption>
       </figure>
       <figure>
-        <img src="assets/art-notion.webp" alt="국가별 출국 OT Notion 시스템" loading="lazy">
-        <figcaption data-en="Per-country pre-departure OT system in Notion">국가별 출국 OT Notion 시스템 (캐나다 폴더)</figcaption>
+        <a href="https://app.notion.com/p/OT-3869ef3ab7188119a79fca3e848b5e7d" target="_blank" rel="noopener">
+          <img src="assets/art-notion.webp" alt="국가별 출국 OT Notion 시스템" loading="lazy">
+        </a>
+        <figcaption data-en="Per-country pre-departure OT system in Notion <span class='hint'>· open ↗</span>">국가별 출국 OT Notion 시스템 (캐나다 폴더) <span class="hint">· 열어 보기 ↗</span></figcaption>
       </figure>
       <figure>
-        <img src="assets/art-commits.webp" alt="영국 진단 사이트의 git 작업 기록" loading="lazy">
-        <figcaption data-en="Work log of the UK diagnostic site (git commits)">영국 진단 사이트의 작업 기록 (git 커밋)</figcaption>
+        <a href="https://github.com/jaebong-choi/uk-study-guide/commits/main/" target="_blank" rel="noopener">
+          <img src="assets/art-commits.webp" alt="영국 진단 사이트의 git 작업 기록" loading="lazy">
+        </a>
+        <figcaption data-en="Work log of the UK diagnostic site (git commits) <span class='hint'>· open ↗</span>">영국 진단 사이트의 작업 기록 (git 커밋) <span class="hint">· 열어 보기 ↗</span></figcaption>
       </figure>
     </div>
+    <dialog class="lightbox" id="lightbox">
+      <img src="assets/art-ot.webp" alt="출국 전 오리엔테이션 진행 모습 (크게 보기)">
+    </dialog>
   </div>
 </section>
 
@@ -722,6 +747,11 @@ if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
   }, { threshold: 0.08 });
   els.forEach(el => io.observe(el));
 }
+
+// 실물 사진 라이트박스
+const lightbox = document.getElementById('lightbox');
+document.querySelector('.artifacts .zoom').addEventListener('click', () => lightbox.showModal());
+lightbox.addEventListener('click', () => lightbox.close());
 
 // 테마 (기본: 라이트)
 const btnTheme = document.getElementById('btn-theme');

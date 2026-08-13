@@ -6,6 +6,7 @@
 <title>논문 인용–원문 대조 검수 데모</title>
 <meta name="description" content="원고 속 인용 문장을 참고문헌 원문과 대조해 불일치를 리포트하는 검수 워크플로 데모.">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<script>try{if(localStorage.getItem('pf-theme')==='dark')document.documentElement.dataset.theme='dark';}catch(e){}</script>
 <style>
 :root {
   --ink: #1d1d29; --ink-soft: #5a5a72; --line: #e7e7f0;
@@ -14,32 +15,58 @@
   --ok: #1a7f4e; --ok-soft: #e8f6ee;
   --bad: #c2384b; --bad-soft: #fdedef;
   --warn: #96650a; --warn-soft: #fdf3df;
+  --hero-wash: #eceafd;
+  --glass: rgba(255, 255, 255, 0.65);
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --shadow-sm: 0 1px 2px rgba(29, 29, 60, 0.05), 0 4px 14px rgba(29, 29, 60, 0.05);
+}
+:root[data-theme="dark"] {
+  --ink: #e9e9f4; --ink-soft: #a4a4c0; --line: #2b2b3e;
+  --bg: #131320; --bg-soft: #1a1a2a;
+  --point: #8b7cf0; --point-deep: #a89bf5; --point-soft: rgba(139, 124, 240, 0.16);
+  --ok: #6fd7a2; --ok-soft: rgba(26, 127, 78, 0.22);
+  --bad: #f28b9b; --bad-soft: rgba(194, 56, 75, 0.22);
+  --warn: #e8bd72; --warn-soft: rgba(150, 101, 10, 0.25);
+  --hero-wash: rgba(109, 90, 230, 0.14);
+  --glass: rgba(19, 19, 32, 0.65);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.25);
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
   font-family: "Pretendard Variable", Pretendard, "Noto Sans KR", system-ui, sans-serif;
   color: var(--ink); background: var(--bg); line-height: 1.65; word-break: keep-all; font-size: 16px;
+  transition: background 0.3s var(--ease), color 0.3s var(--ease);
 }
 .wrap { max-width: 860px; margin: 0 auto; padding: 0 20px; }
 header.top {
   position: sticky; top: 0; z-index: 20;
-  background: rgba(255, 255, 255, 0.65);
+  background: var(--glass);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   border-bottom: 1px solid rgba(29, 29, 60, 0.06);
   padding: 14px 0; font-size: 0.9rem;
 }
-header.top .wrap { display: flex; justify-content: space-between; align-items: baseline; }
+header.top .wrap { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
 header.top .name { font-weight: 700; }
 header.top a { color: var(--ink-soft); text-decoration: none; }
 header.top a:hover { color: var(--point); }
+.top-right { display: flex; align-items: center; gap: 14px; }
+.ctrl { display: flex; align-items: center; gap: 6px; }
+.ctrl button {
+  font: inherit; font-size: 0.78rem; font-weight: 700;
+  border: 1px solid var(--line); background: var(--bg); color: var(--ink-soft);
+  border-radius: 999px; padding: 4px 11px; cursor: pointer;
+  transition: background 0.2s var(--ease), color 0.2s, border-color 0.2s;
+}
+.ctrl button:hover { border-color: var(--point); color: var(--point); }
+.ctrl button.active { background: var(--point); border-color: var(--point); color: #fff; }
+.ctrl .lang-seg button { border-radius: 999px 0 0 999px; }
+.ctrl .lang-seg button + button { border-radius: 0 999px 999px 0; border-left: none; }
 a { color: var(--point); }
 
 .hero {
   padding: 64px 0 48px;
-  background: radial-gradient(800px 400px at 85% -10%, #eceafd 0%, rgba(236, 234, 253, 0) 62%);
+  background: radial-gradient(800px 400px at 85% -10%, var(--hero-wash) 0%, rgba(236, 234, 253, 0) 62%);
 }
 .hero h1 { font-size: clamp(1.5rem, 4vw, 2.1rem); letter-spacing: -0.02em; line-height: 1.25; margin-bottom: 12px; }
 .hero p { color: var(--ink-soft); max-width: 640px; }
@@ -55,7 +82,7 @@ h2 { font-size: 1.25rem; letter-spacing: -0.01em; margin-bottom: 4px; }
 /* 요약 밴드 */
 .summary {
   display: grid; grid-template-columns: repeat(4, 1fr);
-  background: linear-gradient(120deg, var(--point-deep) 0%, var(--point) 60%, #8a75f2 100%);
+  background: linear-gradient(120deg, #5747c9 0%, #6d5ae6 60%, #8a75f2 100%);
   border-radius: 18px; padding: 22px 12px; margin-bottom: 34px;
   box-shadow: var(--shadow-sm);
 }
@@ -116,105 +143,149 @@ footer { border-top: 1px solid var(--line); padding: 26px 0 46px; font-size: 0.8
 
 <header class="top">
   <div class="wrap">
-    <span class="name">논문 인용–원문 대조 검수</span>
-    <a href="../">← 포트폴리오로</a>
+    <span class="name" data-en="Citation–Source Verification">논문 인용–원문 대조 검수</span>
+    <div class="top-right">
+      <a href="../" data-en="← Portfolio">← 포트폴리오로</a>
+      <div class="ctrl">
+        <span class="lang-seg">
+          <button id="btn-ko" type="button">KO</button><button id="btn-en" type="button">EN</button>
+        </span>
+        <button id="btn-theme" type="button">다크</button>
+      </div>
+    </div>
   </div>
 </header>
 
 <section class="hero">
   <div class="wrap">
-    <span class="badge-sample">샘플 데이터 시연 — 원고·문헌은 시연용으로 작성된 가상 자료입니다</span>
-    <h1>인용 문장과 원문을 대조해,<br>불일치만 골라 리포트합니다</h1>
-    <p>원고 속 인용 문장을 추출해 참고문헌의 해당 구절과 나란히 놓고, 수치·통계·조건 왜곡을 Claude로 판정한 결과입니다. 수작업 전수 대조를 자동 리포트로 바꾸는 워크플로 데모입니다.</p>
+    <span class="badge-sample" data-en="Sample-data demo — the manuscript and references are fictional materials created for illustration">샘플 데이터 시연 — 원고·문헌은 시연용으로 작성된 가상 자료입니다</span>
+    <h1 data-en="Citations checked against their sources,<br>only mismatches reported">인용 문장과 원문을 대조해,<br>불일치만 골라 리포트합니다</h1>
+    <p data-en="Citation sentences are extracted from a manuscript and placed beside the cited passage, then judged with Claude for numeric, statistical and conditional distortions. A workflow demo that turns manual full comparison into an automated report.">원고 속 인용 문장을 추출해 참고문헌의 해당 구절과 나란히 놓고, 수치·통계·조건 왜곡을 Claude로 판정한 결과입니다. 수작업 전수 대조를 자동 리포트로 바꾸는 워크플로 데모입니다.</p>
   </div>
 </section>
 
 <section>
   <div class="wrap">
-    <h2>검수 리포트</h2>
-    <p class="sec-cap">가상 원고 「수면 시간과 대사 질환 위험 연구 동향」의 인용 6건 검수 결과.</p>
+    <h2 data-en="Review Report">검수 리포트</h2>
+    <p class="sec-cap" data-en="Six citations reviewed in the fictional manuscript 'Sleep Duration and Metabolic Disease Risk: A Review'.">가상 원고 「수면 시간과 대사 질환 위험 연구 동향」의 인용 6건 검수 결과.</p>
 
     <div class="summary">
-      <div><div class="n">6건</div><div class="l">검수 인용</div></div>
-      <div><div class="n">2건</div><div class="l">일치</div></div>
-      <div><div class="n">3건</div><div class="l">불일치</div></div>
-      <div><div class="n">1건</div><div class="l">요확인</div></div>
+      <div><div class="n" data-en="6">6건</div><div class="l" data-en="citations reviewed">검수 인용</div></div>
+      <div><div class="n" data-en="2">2건</div><div class="l" data-en="match">일치</div></div>
+      <div><div class="n" data-en="3">3건</div><div class="l" data-en="mismatch">불일치</div></div>
+      <div><div class="n" data-en="1">1건</div><div class="l" data-en="needs review">요확인</div></div>
     </div>
 
     <div class="check">
-      <div class="head"><span class="no">인용 1</span><span class="verdict v-ok">일치</span></div>
+      <div class="head"><span class="no" data-en="Citation 1">인용 1</span><span class="verdict v-ok" data-en="Match">일치</span></div>
       <div class="cols">
-        <div class="col"><h3>원고의 인용</h3><p>문헌 A의 코호트는 <mark class="m-ok">약 5만 2천 명</mark>을 평균 8년간 추적했다.</p></div>
-        <div class="col"><h3>원문 (문헌 A, p.4)</h3><p>"…최종 분석에 포함된 참여자는 <mark class="m-ok">52,148명</mark>, 평균 추적 기간은 8.1년…"</p></div>
+        <div class="col"><h3 data-en="In the manuscript">원고의 인용</h3><p data-en="The cohort in Ref. A followed <mark class='m-ok'>about 52 thousand</mark> participants for a mean of eight years.">문헌 A의 코호트는 <mark class="m-ok">약 5만 2천 명</mark>을 평균 8년간 추적했다.</p></div>
+        <div class="col"><h3 data-en="Source (Ref. A, p.4)">원문 (문헌 A, p.4)</h3><p data-en="&quot;…the final analysis included <mark class='m-ok'>52,148 participants</mark>, with a mean follow-up of 8.1 years…&quot;">"…최종 분석에 포함된 참여자는 <mark class="m-ok">52,148명</mark>, 평균 추적 기간은 8.1년…"</p></div>
       </div>
-      <div class="note"><b>판정 근거:</b> 52,148명을 "약 5만 2천 명"으로 표기 — 반올림 범위 내 일치.</div>
+      <div class="note" data-en="<b>Rationale:</b> 52,148 rounded to 'about 52 thousand' — matches within rounding."><b>판정 근거:</b> 52,148명을 "약 5만 2천 명"으로 표기 — 반올림 범위 내 일치.</div>
     </div>
 
     <div class="check">
-      <div class="head"><span class="no">인용 2</span><span class="verdict v-bad">통계 왜곡</span></div>
+      <div class="head"><span class="no" data-en="Citation 2">인용 2</span><span class="verdict v-bad" data-en="Statistical distortion">통계 왜곡</span></div>
       <div class="cols">
-        <div class="col"><h3>원고의 인용</h3><p>문헌 B에서 단시간 수면군의 대사 질환 위험이 <mark>유의하게 증가했다(p&lt;0.05)</mark>.</p></div>
-        <div class="col"><h3>원문 (문헌 B, p.11)</h3><p>"…단시간 수면군의 위험비는 1.18이었으나 <mark>통계적으로 유의하지 않았다(p=0.09)</mark>…"</p></div>
+        <div class="col"><h3 data-en="In the manuscript">원고의 인용</h3><p data-en="In Ref. B, metabolic-disease risk rose <mark>significantly (p&lt;0.05)</mark> in short sleepers.">문헌 B에서 단시간 수면군의 대사 질환 위험이 <mark>유의하게 증가했다(p&lt;0.05)</mark>.</p></div>
+        <div class="col"><h3 data-en="Source (Ref. B, p.11)">원문 (문헌 B, p.11)</h3><p data-en="&quot;…the hazard ratio in short sleepers was 1.18 but <mark>not statistically significant (p=0.09)</mark>…&quot;">"…단시간 수면군의 위험비는 1.18이었으나 <mark>통계적으로 유의하지 않았다(p=0.09)</mark>…"</p></div>
       </div>
-      <div class="note"><b>판정 근거:</b> 원문은 유의하지 않은 결과(p=0.09) — 원고가 유의한 결과처럼 인용한 통계 왜곡.</div>
+      <div class="note" data-en="<b>Rationale:</b> the source reports a non-significant result (p=0.09) — cited as if it were significant."><b>판정 근거:</b> 원문은 유의하지 않은 결과(p=0.09) — 원고가 유의한 결과처럼 인용한 통계 왜곡.</div>
     </div>
 
     <div class="check">
-      <div class="head"><span class="no">인용 3</span><span class="verdict v-bad">조건 누락</span></div>
+      <div class="head"><span class="no" data-en="Citation 3">인용 3</span><span class="verdict v-bad" data-en="Missing condition">조건 누락</span></div>
       <div class="cols">
-        <div class="col"><h3>원고의 인용</h3><p>수면 연장 중재는 공복 혈당을 <mark>32% 개선했다</mark>(문헌 C).</p></div>
-        <div class="col"><h3>원문 (문헌 C, p.6)</h3><p>"…<mark>마우스 모델</mark>에서 공복 혈당이 32% 감소했으며, 사람 대상 확인이 필요하다…"</p></div>
+        <div class="col"><h3 data-en="In the manuscript">원고의 인용</h3><p data-en="A sleep-extension intervention <mark>improved fasting glucose by 32%</mark> (Ref. C).">수면 연장 중재는 공복 혈당을 <mark>32% 개선했다</mark>(문헌 C).</p></div>
+        <div class="col"><h3 data-en="Source (Ref. C, p.6)">원문 (문헌 C, p.6)</h3><p data-en="&quot;…fasting glucose fell 32% <mark>in a mouse model</mark>; confirmation in humans is needed…&quot;">"…<mark>마우스 모델</mark>에서 공복 혈당이 32% 감소했으며, 사람 대상 확인이 필요하다…"</p></div>
       </div>
-      <div class="note"><b>판정 근거:</b> 동물실험 결과를 사람 대상 효과처럼 인용 — 전임상 조건이 누락됨.</div>
+      <div class="note" data-en="<b>Rationale:</b> an animal finding cited as a human effect — the preclinical condition was dropped."><b>판정 근거:</b> 동물실험 결과를 사람 대상 효과처럼 인용 — 전임상 조건이 누락됨.</div>
     </div>
 
     <div class="check">
-      <div class="head"><span class="no">인용 4</span><span class="verdict v-ok">일치</span></div>
+      <div class="head"><span class="no" data-en="Citation 4">인용 4</span><span class="verdict v-ok" data-en="Match">일치</span></div>
       <div class="cols">
-        <div class="col"><h3>원고의 인용</h3><p>문헌 D는 수면 시간과 위험 사이의 <mark class="m-ok">U자형 용량–반응 관계</mark>를 보고했다.</p></div>
-        <div class="col"><h3>원문 (문헌 D, p.15)</h3><p>"…7시간 전후를 저점으로 하는 <mark class="m-ok">U자형 연관성</mark>이 관찰되었다…"</p></div>
+        <div class="col"><h3 data-en="In the manuscript">원고의 인용</h3><p data-en="Ref. D reported a <mark class='m-ok'>U-shaped dose–response</mark> between sleep duration and risk.">문헌 D는 수면 시간과 위험 사이의 <mark class="m-ok">U자형 용량–반응 관계</mark>를 보고했다.</p></div>
+        <div class="col"><h3 data-en="Source (Ref. D, p.15)">원문 (문헌 D, p.15)</h3><p data-en="&quot;…a <mark class='m-ok'>U-shaped association</mark> with its nadir around seven hours…&quot;">"…7시간 전후를 저점으로 하는 <mark class="m-ok">U자형 연관성</mark>이 관찰되었다…"</p></div>
       </div>
-      <div class="note"><b>판정 근거:</b> 원문의 용량–반응 분석 결과를 조건 왜곡 없이 인용.</div>
+      <div class="note" data-en="<b>Rationale:</b> the dose–response finding is cited without distorting its conditions."><b>판정 근거:</b> 원문의 용량–반응 분석 결과를 조건 왜곡 없이 인용.</div>
     </div>
 
     <div class="check">
-      <div class="head"><span class="no">인용 5</span><span class="verdict v-bad">원문에 없는 주장</span></div>
+      <div class="head"><span class="no" data-en="Citation 5">인용 5</span><span class="verdict v-bad" data-en="Claim not in source">원문에 없는 주장</span></div>
       <div class="cols">
-        <div class="col"><h3>원고의 인용</h3><p>문헌 E는 <mark>임상 지침 개정이 필요하다고 결론지었다</mark>.</p></div>
-        <div class="col"><h3>원문 (문헌 E, p.22)</h3><p>"…지침 논의에 앞서 <mark>추가 무작위 대조 시험이 선행되어야 한다</mark>…"</p></div>
+        <div class="col"><h3 data-en="In the manuscript">원고의 인용</h3><p data-en="Ref. E <mark>concluded that clinical guidelines should be revised</mark>.">문헌 E는 <mark>임상 지침 개정이 필요하다고 결론지었다</mark>.</p></div>
+        <div class="col"><h3 data-en="Source (Ref. E, p.22)">원문 (문헌 E, p.22)</h3><p data-en="&quot;…<mark>further randomized controlled trials should precede</mark> any guideline discussion…&quot;">"…지침 논의에 앞서 <mark>추가 무작위 대조 시험이 선행되어야 한다</mark>…"</p></div>
       </div>
-      <div class="note"><b>판정 근거:</b> 원문은 추가 검증을 요구 — "지침 개정 필요"라는 결론은 원문에 존재하지 않음.</div>
+      <div class="note" data-en="<b>Rationale:</b> the source calls for further trials — 'guidelines should be revised' appears nowhere in it."><b>판정 근거:</b> 원문은 추가 검증을 요구 — "지침 개정 필요"라는 결론은 원문에 존재하지 않음.</div>
     </div>
 
     <div class="check">
-      <div class="head"><span class="no">인용 6</span><span class="verdict v-warn">요확인</span></div>
+      <div class="head"><span class="no" data-en="Citation 6">인용 6</span><span class="verdict v-warn" data-en="Needs review">요확인</span></div>
       <div class="cols">
-        <div class="col"><h3>원고의 인용</h3><p>문헌 F에서 개선 효과는 <mark>장기 추적에서도 유지</mark>되었다.</p></div>
-        <div class="col"><h3>원문 (문헌 F, p.9)</h3><p>"…<mark>12주 추적</mark> 시점까지 개선이 유지되었다…"</p></div>
+        <div class="col"><h3 data-en="In the manuscript">원고의 인용</h3><p data-en="In Ref. F the improvement <mark>persisted over long-term follow-up</mark>.">문헌 F에서 개선 효과는 <mark>장기 추적에서도 유지</mark>되었다.</p></div>
+        <div class="col"><h3 data-en="Source (Ref. F, p.9)">원문 (문헌 F, p.9)</h3><p data-en="&quot;…the improvement was maintained up to the <mark>12-week follow-up</mark>…&quot;">"…<mark>12주 추적</mark> 시점까지 개선이 유지되었다…"</p></div>
       </div>
-      <div class="note"><b>판정 근거:</b> 12주 추적을 "장기"로 표현 — 분야 관행에 따라 허용 여부가 갈리므로 저자 확인 필요.</div>
+      <div class="note" data-en="<b>Rationale:</b> 12 weeks described as 'long-term' — conventions differ by field; author confirmation needed."><b>판정 근거:</b> 12주 추적을 "장기"로 표현 — 분야 관행에 따라 허용 여부가 갈리므로 저자 확인 필요.</div>
     </div>
   </div>
 </section>
 
 <section class="how" style="background: var(--bg-soft);">
   <div class="wrap">
-    <h2>작동 방식</h2>
-    <p class="sec-cap">사람이 하던 전수 대조를 3단계 리포트로 바꿉니다.</p>
+    <h2 data-en="How it works">작동 방식</h2>
+    <p class="sec-cap" data-en="Manual full comparison becomes a three-step report.">사람이 하던 전수 대조를 3단계 리포트로 바꿉니다.</p>
     <ol>
-      <li><b>인용 추출</b><small>원고에서 인용 문장과 출처 표기를 목록으로 뽑는다</small></li>
-      <li><b>원문 대조</b><small>참고문헌의 해당 구절을 찾아 나란히 놓고 수치·통계·조건을 비교한다</small></li>
-      <li><b>불일치 리포트</b><small>일치/불일치/요확인으로 판정하고 근거를 한 줄씩 남긴다 — 최종 판단은 사람이 한다</small></li>
+      <li><b data-en="Extract citations">인용 추출</b><small data-en="List citation sentences and their source markers from the manuscript">원고에서 인용 문장과 출처 표기를 목록으로 뽑는다</small></li>
+      <li><b data-en="Compare with sources">원문 대조</b><small data-en="Find the cited passage and compare figures, statistics and conditions side by side">참고문헌의 해당 구절을 찾아 나란히 놓고 수치·통계·조건을 비교한다</small></li>
+      <li><b data-en="Mismatch report">불일치 리포트</b><small data-en="Match / mismatch / needs-review verdicts, each with a one-line rationale — final judgment stays with a human">일치/불일치/요확인으로 판정하고 근거를 한 줄씩 남긴다 — 최종 판단은 사람이 한다</small></li>
     </ol>
-    <p class="disclaimer">이 페이지의 원고와 문헌 A~F는 워크플로를 보여주기 위해 만든 가상 샘플입니다. 실제 검수에서는 Claude에 원고와 참고문헌 파일을 제공해 같은 형식의 리포트를 생성하고, 불일치 항목만 사람이 원문을 열어 최종 확인합니다.</p>
+    <p class="disclaimer" data-en="The manuscript and references A–F on this page are fictional samples created to illustrate the workflow. In real reviews, Claude receives the manuscript and reference files and produces a report in this same format; a human opens the source only for flagged items.">이 페이지의 원고와 문헌 A~F는 워크플로를 보여주기 위해 만든 가상 샘플입니다. 실제 검수에서는 Claude에 원고와 참고문헌 파일을 제공해 같은 형식의 리포트를 생성하고, 불일치 항목만 사람이 원문을 열어 최종 확인합니다.</p>
   </div>
 </section>
 
 <footer>
   <div class="wrap">
-    <p><a href="../">← AI 업무 자동화 포트폴리오</a> · <a href="../submit-check/">투고 전 점검 데모</a> · 최종 업데이트: 2026-08-13</p>
+    <p><a href="../" data-en="← AI Automation Portfolio">← AI 업무 자동화 포트폴리오</a> · <a href="../submit-check/" data-en="Pre-submission check demo">투고 전 점검 데모</a> · <span data-en="Last updated: 2026-08-13">최종 업데이트: 2026-08-13</span></p>
   </div>
 </footer>
+
+<script>
+const btnTheme = document.getElementById('btn-theme');
+const btnKo = document.getElementById('btn-ko');
+const btnEn = document.getElementById('btn-en');
+function applyTheme(t) {
+  if (t === 'dark') document.documentElement.dataset.theme = 'dark';
+  else delete document.documentElement.dataset.theme;
+  try { localStorage.setItem('pf-theme', t); } catch (e) {}
+  updateCtrlLabels();
+}
+btnTheme.addEventListener('click', () => {
+  applyTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark');
+});
+function applyLang(l) {
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(el => {
+    if (!('ko' in el.dataset)) el.dataset.ko = el.innerHTML;
+    el.innerHTML = l === 'en' ? el.dataset.en : el.dataset.ko;
+  });
+  btnKo.classList.toggle('active', l !== 'en');
+  btnEn.classList.toggle('active', l === 'en');
+  try { localStorage.setItem('pf-lang', l); } catch (e) {}
+  updateCtrlLabels();
+}
+btnKo.addEventListener('click', () => applyLang('ko'));
+btnEn.addEventListener('click', () => applyLang('en'));
+function updateCtrlLabels() {
+  const en = document.documentElement.lang === 'en';
+  const dark = document.documentElement.dataset.theme === 'dark';
+  btnTheme.textContent = en ? (dark ? 'Light' : 'Dark') : (dark ? '라이트' : '다크');
+}
+let savedLang = 'ko';
+try { savedLang = localStorage.getItem('pf-lang') || 'ko'; } catch (e) {}
+applyLang(savedLang);
+</script>
 
 </body>
 </html>

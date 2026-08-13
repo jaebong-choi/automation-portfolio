@@ -6,6 +6,7 @@
 <title>최재봉 — AI 업무 자동화 포트폴리오</title>
 <meta name="description" content="반복 업무를 AI로 자동화하고, 결과물을 검증해 배포까지 완주한 실무 기록.">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<script>try{if(localStorage.getItem('pf-theme')==='dark')document.documentElement.dataset.theme='dark';}catch(e){}</script>
 <style>
 :root {
   --ink: #1d1d29;
@@ -16,9 +17,29 @@
   --point: #6d5ae6;       /* 포인트 1색: 바이올렛 */
   --point-deep: #5747c9;
   --point-soft: #efedfc;
+  --hero-wash-a: #eceafd;
+  --hero-wash-b: #fdeef4;
+  --glass: rgba(255, 255, 255, 0.65);
+  --glass-soft: rgba(255, 255, 255, 0.7);
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --shadow-sm: 0 1px 2px rgba(29, 29, 60, 0.05), 0 4px 14px rgba(29, 29, 60, 0.05);
   --shadow-md: 0 2px 6px rgba(29, 29, 60, 0.06), 0 14px 34px rgba(29, 29, 60, 0.09);
+}
+:root[data-theme="dark"] {
+  --ink: #e9e9f4;
+  --ink-soft: #a4a4c0;
+  --line: #2b2b3e;
+  --bg: #131320;
+  --bg-soft: #1a1a2a;
+  --point: #8b7cf0;
+  --point-deep: #a89bf5;
+  --point-soft: rgba(139, 124, 240, 0.16);
+  --hero-wash-a: rgba(109, 90, 230, 0.14);
+  --hero-wash-b: rgba(194, 56, 120, 0.08);
+  --glass: rgba(19, 19, 32, 0.65);
+  --glass-soft: rgba(26, 26, 42, 0.7);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 2px 6px rgba(0, 0, 0, 0.35), 0 14px 34px rgba(0, 0, 0, 0.3);
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -29,6 +50,7 @@ body {
   line-height: 1.65;
   word-break: keep-all;
   font-size: 16px;
+  transition: background 0.3s var(--ease), color 0.3s var(--ease);
 }
 .wrap { max-width: 920px; margin: 0 auto; padding: 0 20px; }
 section { padding: 64px 0; }
@@ -39,24 +61,43 @@ a { color: var(--point); }
 /* 헤더 — 반투명 스티키 */
 header.top {
   position: sticky; top: 0; z-index: 20;
-  background: rgba(255, 255, 255, 0.65);
+  background: var(--glass);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   border-bottom: 1px solid rgba(29, 29, 60, 0.06);
-  padding: 14px 0;
+  padding: 10px 0;
   font-size: 0.9rem;
 }
-header.top .wrap { display: flex; justify-content: space-between; align-items: baseline; }
-header.top .name { font-weight: 700; letter-spacing: -0.01em; }
-header.top nav a { margin-left: 16px; text-decoration: none; color: var(--ink-soft); transition: color 0.2s var(--ease); }
+header.top .wrap { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.ident { min-width: 0; }
+.ident small {
+  display: block; font-size: 0.72rem; font-weight: 600;
+  color: var(--ink-soft); letter-spacing: -0.01em; line-height: 1.4;
+}
+.ident .name { font-weight: 800; letter-spacing: -0.01em; font-size: 0.98rem; }
+.top-right { display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
+header.top nav { display: flex; gap: 14px; }
+header.top nav a { text-decoration: none; color: var(--ink-soft); transition: color 0.2s var(--ease); }
 header.top nav a:hover { color: var(--point); }
+.ctrl { display: flex; align-items: center; gap: 6px; }
+.ctrl button {
+  font: inherit; font-size: 0.78rem; font-weight: 700;
+  border: 1px solid var(--line); background: var(--bg); color: var(--ink-soft);
+  border-radius: 999px; padding: 4px 11px; cursor: pointer;
+  transition: background 0.2s var(--ease), color 0.2s, border-color 0.2s;
+}
+.ctrl button:hover { border-color: var(--point); color: var(--point); }
+.ctrl button.active { background: var(--point); border-color: var(--point); color: #fff; }
+.ctrl .lang-seg { display: flex; gap: 0; }
+.ctrl .lang-seg button { border-radius: 999px 0 0 999px; }
+.ctrl .lang-seg button + button { border-radius: 0 999px 999px 0; border-left: none; }
 
 /* S1 히어로 — 옅은 파스텔 워시 */
 .hero {
   padding: 88px 0 72px;
   background:
-    radial-gradient(900px 460px at 85% -10%, #eceafd 0%, rgba(236, 234, 253, 0) 62%),
-    radial-gradient(700px 380px at 5% 115%, #fdeef4 0%, rgba(253, 238, 244, 0) 58%);
+    radial-gradient(900px 460px at 85% -10%, var(--hero-wash-a) 0%, rgba(236, 234, 253, 0) 62%),
+    radial-gradient(700px 380px at 5% 115%, var(--hero-wash-b) 0%, rgba(253, 238, 244, 0) 58%);
 }
 .hero h1 {
   font-size: clamp(1.85rem, 4.6vw, 2.6rem);
@@ -73,7 +114,7 @@ header.top nav a:hover { color: var(--point); }
 .hero .meta-proof {
   border-left: 3px solid var(--point);
   padding: 12px 16px;
-  background: rgba(255, 255, 255, 0.7);
+  background: var(--glass-soft);
   border-radius: 0 12px 12px 0;
   font-size: 0.95rem; margin-bottom: 30px;
 }
@@ -84,7 +125,7 @@ header.top nav a:hover { color: var(--point); }
   transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), border-color 0.2s;
 }
 .hero .links a.primary { background: var(--point); color: #fff; box-shadow: var(--shadow-sm); }
-.hero .links a:not(.primary) { border: 1px solid var(--line); color: var(--ink); background: rgba(255, 255, 255, 0.7); }
+.hero .links a:not(.primary) { border: 1px solid var(--line); color: var(--ink); background: var(--glass-soft); }
 .hero .links a:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--point); }
 .hero .links a.primary:hover { border-color: transparent; }
 .hero .links a:active { transform: scale(0.97); }
@@ -120,6 +161,7 @@ header.top nav a:hover { color: var(--point); }
   padding: 16px 20px 12px; border-bottom: 1px solid var(--line);
   background: var(--bg-soft);
 }
+.auto-head span:last-child { text-align: right; }
 .auto-row { border-bottom: 1px solid var(--line); }
 .auto-row:last-child { border-bottom: none; }
 .auto-row summary {
@@ -143,7 +185,6 @@ header.top nav a:hover { color: var(--point); }
 .auto-row .shift { font-variant-numeric: tabular-nums; }
 .auto-row .shift .after { color: var(--point-deep); font-weight: 800; font-size: 1.1rem; letter-spacing: -0.01em; }
 .auto-row .save { color: var(--point-deep); font-weight: 800; font-size: 1.1rem; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; text-align: right; }
-.auto-head span:last-child { text-align: right; }
 .auto-row .detail {
   padding: 4px 20px 22px; font-size: 0.92rem; color: var(--ink-soft);
   max-width: 720px;
@@ -181,7 +222,7 @@ header.top nav a:hover { color: var(--point); }
 .metric-cards {
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
   margin: 28px 0;
-  background: linear-gradient(120deg, var(--point-deep) 0%, var(--point) 60%, #8a75f2 100%);
+  background: linear-gradient(120deg, #5747c9 0%, #6d5ae6 60%, #8a75f2 100%);
   border-radius: 20px; padding: 28px 16px;
   box-shadow: var(--shadow-md);
 }
@@ -254,14 +295,16 @@ footer { border-top: 1px solid var(--line); padding: 30px 0 52px; font-size: 0.8
   .hero .links a, .deep .visit, .gallery .item { transition: none; }
 }
 @media (prefers-reduced-transparency: reduce) {
-  header.top { background: #fff; backdrop-filter: none; -webkit-backdrop-filter: none; }
+  header.top { background: var(--bg); backdrop-filter: none; -webkit-backdrop-filter: none; }
 }
 :focus-visible { outline: 2px solid var(--point); outline-offset: 2px; }
 
 /* 모바일: 표 → 카드 */
 @media (max-width: 720px) {
   section { padding: 48px 0; }
-  header.top .wrap { flex-wrap: wrap; gap: 4px 0; }
+  header.top .wrap { flex-wrap: wrap; gap: 6px 12px; }
+  .top-right { width: 100%; flex-shrink: 1; flex-wrap: wrap; gap: 8px 12px; justify-content: space-between; }
+  header.top nav { gap: 0; flex-wrap: wrap; }
   header.top nav a { margin: 0 12px 0 0; }
   .hero { padding: 56px 0 48px; }
   .auto-card { border: none; box-shadow: none; border-radius: 0; overflow: visible; background: transparent; }
@@ -292,14 +335,20 @@ footer { border-top: 1px solid var(--line); padding: 30px 0 52px; font-size: 0.8
   .gallery { grid-template-columns: repeat(2, 1fr); }
 }
 
-/* 인쇄: A4 1~2장 요약 */
+/* 인쇄: A4 1~2장 요약 — 항상 라이트 팔레트 */
 @media print {
-  @page { margin: 8mm 12mm; }
+  @page { margin: 7mm 11mm; }
+  :root, :root[data-theme="dark"] {
+    --ink: #1d1d29; --ink-soft: #5a5a72; --line: #e7e7f0;
+    --bg: #ffffff; --bg-soft: #f7f7fc;
+    --point: #6d5ae6; --point-deep: #5747c9; --point-soft: #efedfc;
+    --glass: none; --glass-soft: none;
+  }
   body { font-size: 10.5px; line-height: 1.35; }
-  .map { display: none; }
-  header.top { position: static; background: none; backdrop-filter: none; }
+  .map, .ctrl { display: none; }
   header.top nav, .gallery img, .deep-shot, .fade { display: none; }
   .fade { opacity: 1 !important; transform: none !important; display: revert; }
+  header.top { position: static; background: none; backdrop-filter: none; }
   .hero .links { display: block; }
   .hero .links a, .hero .links a.primary, .deep .visit {
     display: inline; padding: 0; border: 0; background: none; box-shadow: none;
@@ -313,10 +362,6 @@ footer { border-top: 1px solid var(--line); padding: 30px 0 52px; font-size: 0.8
   .auto-row summary { padding-right: 8px; }
   .auto-row .demo-link { background: none; padding: 0; }
   .auto-row .demo-link::after { content: " — " attr(data-url); font-size: 9px; font-weight: 400; color: #555; }
-  .map { padding: 8px 0; border-bottom: none; }
-  .map-grid { grid-template-columns: repeat(2, 1fr); gap: 4px; }
-  .map-grid a { border: none; box-shadow: none; padding: 2px 0; }
-  .map-grid .arrow { display: none; }
   section { padding: 8px 0; }
   .auto-card, .auto-row, .gallery .item, .metric-cards, .deep .visit { box-shadow: none; }
   .auto-card { border-radius: 0; border: none; }
@@ -324,10 +369,13 @@ footer { border-top: 1px solid var(--line); padding: 30px 0 52px; font-size: 0.8
   .auto-row, .metric-cards, .steps li { page-break-inside: avoid; }
   h2 { font-size: 13px; margin-bottom: 2px; }
   .sec-cap { margin-bottom: 8px; }
-  .hero { padding: 10px 0; background: none; }
-  .hero h1 { font-size: 16px; }
-  .hero .kw { margin-bottom: 8px; }
-  .hero .meta-proof { margin-bottom: 8px; background: none; }
+  .hero { padding: 6px 0; background: none; }
+  .hero h1 { font-size: 15px; }
+  .hero .thesis { font-size: 11px; margin: 0 0 6px; }
+  .ident small { font-size: 9px; }
+  .hero .kw { margin-bottom: 6px; }
+  .hero .kw span { padding: 2px 8px; font-size: 9px; }
+  .hero .meta-proof { margin-bottom: 6px; padding: 4px 10px; background: none; }
   .auto-row summary { padding: 7px 8px; font-size: 10.5px; }
   .auto-head { padding: 0 8px 4px; }
   .deep { background: none; }
@@ -340,9 +388,11 @@ footer { border-top: 1px solid var(--line); padding: 30px 0 52px; font-size: 0.8
   .metric-cards .num { font-size: 13px; color: var(--point-deep); }
   .metric-cards .label { color: #555; }
   .bridge { margin: 4px 0 8px; }
-  .gallery { grid-template-columns: 1fr; gap: 4px; }
+  .gallery { grid-template-columns: 1fr; gap: 2px; }
   .gallery .item { border: none; border-radius: 0; }
-  .gallery .cap { padding: 2px 0; }
+  .gallery .cap { padding: 1px 0; line-height: 1.3; }
+  .gallery .cap b { font-size: 10px; }
+  .gallery .cap small { font-size: 9px; }
   .gallery .cap br { display: none; }
   .gallery .cap b::after, .hero .meta-proof a::after, .deep-links a::after, .save a::after {
     content: " — " attr(data-url); font-weight: 400; color: #555;
@@ -366,34 +416,44 @@ footer { border-top: 1px solid var(--line); padding: 30px 0 52px; font-size: 0.8
 
 <header class="top">
   <div class="wrap">
-    <span class="name">최재봉</span>
-    <nav>
-      <a href="#auto">자동화 실적</a>
-      <a href="#deep">대표 사례</a>
-      <a href="#gallery">제작물</a>
-      <a href="#stack">도구</a>
-    </nav>
+    <div class="ident">
+      <small data-en="Applicant · Research Manager, JIRM, Kyungpook National University Hospital">경북대병원 국제재생의학연구소(JIRM) 리서치 매니저 지원자</small>
+      <span class="name" data-en="Jaebong Choi — Portfolio">최재봉 포트폴리오</span>
+    </div>
+    <div class="top-right">
+      <nav>
+        <a href="#auto" data-en="Automation">자동화 실적</a>
+        <a href="#deep" data-en="Case Study">대표 사례</a>
+        <a href="#gallery" data-en="Work">제작물</a>
+        <a href="#stack" data-en="Tools">도구</a>
+      </nav>
+      <div class="ctrl">
+        <span class="lang-seg">
+          <button id="btn-ko" type="button">KO</button><button id="btn-en" type="button">EN</button>
+        </span>
+        <button id="btn-theme" type="button">다크</button>
+      </div>
+    </div>
   </div>
 </header>
 
 <!-- S1 히어로 -->
 <section class="hero">
   <div class="wrap">
-    <h1>AI 업무 자동화 · 데이터 조사/검증 · 문서·산출물 검수</h1>
-    <p class="thesis">반복 업무를 AI로 자동화하고, 결과물을 검증해 배포까지 완주합니다.</p>
+    <h1 data-en="AI Automation · Data Research &amp; Verification · Document Review">AI 업무 자동화 · 데이터 조사/검증 · 문서·산출물 검수</h1>
+    <p class="thesis" data-en="I automate repetitive work with AI, verify the output, and see it through to deployment.">반복 업무를 AI로 자동화하고, 결과물을 검증해 배포까지 완주합니다.</p>
     <div class="kw">
-      <span>사이트 5종 배포 완주</span>
-      <span>커스텀 스킬 약 20종 운영</span>
-      <span>블로그 편당 약 2시간 절감</span>
+      <span data-en="5 sites shipped">사이트 5종 배포 완주</span>
+      <span data-en="~20 custom skills in operation">커스텀 스킬 약 20종 운영</span>
+      <span data-en="~2 hours saved per blog post">블로그 편당 약 2시간 절감</span>
     </div>
-    <p class="meta-proof">
-      이 페이지 자체도 Claude Code로 1시간 만에 제작·배포되었습니다.
+    <p class="meta-proof" data-en="This page itself was built and deployed with Claude Code. <a href='https://github.com/jaebong-choi/automation-portfolio' data-url='github.com/jaebong-choi/automation-portfolio'>Build-process repo</a>">
+      이 페이지 자체도 Claude Code로 제작·배포되었습니다.
       <a href="https://github.com/jaebong-choi/automation-portfolio" data-url="github.com/jaebong-choi/automation-portfolio">제작 과정 repo</a>
     </p>
     <div class="links">
-      <a class="primary" href="mailto:cjbong23@hanmail.net" data-url="cjbong23@hanmail.net">이메일</a>
-      <a href="https://jaebong-portfolio.vercel.app/general/" data-url="jaebong-portfolio.vercel.app/general">종합 포트폴리오</a>
-      <a href="https://github.com/jaebong-choi" data-url="github.com/jaebong-choi">GitHub</a>
+      <a class="primary" href="mailto:cjbong23@hanmail.net" data-url="cjbong23@hanmail.net" data-en="Email">이메일</a>
+      <a href="https://jaebong-portfolio.vercel.app/general/" data-url="jaebong-portfolio.vercel.app/general" data-en="Full Portfolio">종합 포트폴리오</a>
     </div>
   </div>
 </section>
@@ -401,27 +461,27 @@ footer { border-top: 1px solid var(--line); padding: 30px 0 52px; font-size: 0.8
 <!-- 연구행정 매핑 스트립 -->
 <section class="map">
   <div class="wrap">
-    <h2>연구행정에 이렇게 연결됩니다</h2>
+    <h2 data-en="How this maps to research administration">연구행정에 이렇게 연결됩니다</h2>
     <div class="map-grid">
       <a href="ref-check/">
-        <b>산출물·레퍼런스 검수</b>
-        <small>인용–원문 대조 리포트</small>
-        <span class="arrow">데모 →</span>
+        <b data-en="Deliverable &amp; reference review">산출물·레퍼런스 검수</b>
+        <small data-en="Citation–source comparison report">인용–원문 대조 리포트</small>
+        <span class="arrow" data-en="Demo →">데모 →</span>
       </a>
       <a href="submit-check/">
-        <b>원고 점검·서식 변환</b>
-        <small>투고 전 규정 대조 리포트</small>
-        <span class="arrow">데모 →</span>
+        <b data-en="Manuscript check &amp; reformatting">원고 점검·서식 변환</b>
+        <small data-en="Pre-submission compliance report">투고 전 규정 대조 리포트</small>
+        <span class="arrow" data-en="Demo →">데모 →</span>
       </a>
       <a href="#auto">
-        <b>반복 업무 자동화</b>
-        <small>실측 절감 수치 6행</small>
-        <span class="arrow">실적 표 →</span>
+        <b data-en="Repetitive-work automation">반복 업무 자동화</b>
+        <small data-en="Six rows of measured savings">실측 절감 수치 6행</small>
+        <span class="arrow" data-en="Track record →">실적 표 →</span>
       </a>
       <a href="#quality">
-        <b>정확성·완주 원칙</b>
-        <small>서류 실무에서 온 검증 습관</small>
-        <span class="arrow">원칙 →</span>
+        <b data-en="Accuracy &amp; follow-through">정확성·완주 원칙</b>
+        <small data-en="Verification habits from document work">서류 실무에서 온 검증 습관</small>
+        <span class="arrow" data-en="Principles →">원칙 →</span>
       </a>
     </div>
   </div>
@@ -430,82 +490,82 @@ footer { border-top: 1px solid var(--line); padding: 30px 0 52px; font-size: 0.8
 <!-- S2 자동화 실적 -->
 <section id="auto" class="fade">
   <div class="wrap">
-    <h2>자동화 실적</h2>
-    <p class="sec-cap">유학 기업 재직 중 실무로 만든 자동화입니다. 행을 누르면 검증 방법이 열립니다.</p>
+    <h2 data-en="Automation Track Record">자동화 실적</h2>
+    <p class="sec-cap" data-en="Built on the job at a study-abroad company. Click a row to see how each output was verified.">유학 기업 재직 중 실무로 만든 자동화입니다. 행을 누르면 검증 방법이 열립니다.</p>
 
     <div class="auto-card">
       <div class="auto-head" aria-hidden="true">
-        <span>자동화 대상</span><span>사용 도구</span><span>Before → After</span><span>절감 효과</span>
+        <span data-en="Target">자동화 대상</span><span data-en="Tools">사용 도구</span><span>Before → After</span><span data-en="Impact">절감 효과</span>
       </div>
 
       <details class="auto-row">
         <summary>
-          <span class="subject">인스타 카드뉴스(1080×1350) 세트 제작</span>
-          <span class="tools">Claude 스킬 + Python/Playwright (HTML→PNG 렌더링)</span>
-          <span class="shift"><span class="mobile-label">Before → After</span>수작업 3~4시간 → <span class="after">1시간</span></span>
-          <span class="save"><span class="mobile-label">절감</span>세트당 2~3시간</span>
+          <span class="subject" data-en="Instagram card-news sets (1080×1350)">인스타 카드뉴스(1080×1350) 세트 제작</span>
+          <span class="tools" data-en="Claude skill + Python/Playwright (HTML→PNG rendering)">Claude 스킬 + Python/Playwright (HTML→PNG 렌더링)</span>
+          <span class="shift" data-en="<span class='mobile-label'>Before → After</span>Manual 3–4 h → <span class='after'>1 h</span>"><span class="mobile-label">Before → After</span>수작업 3~4시간 → <span class="after">1시간</span></span>
+          <span class="save" data-en="<span class='mobile-label'>Saved</span>2–3 h per set"><span class="mobile-label">절감</span>세트당 2~3시간</span>
         </summary>
-        <p class="detail"><b>검증:</b> 발행 전에 수치·날짜를 원문과 대조하고 렌더링 결과를 전수 확인합니다. 비자·정책 뉴스를 카드뉴스 세트로 만드는 작업을 스킬로 고정 — 브랜드 색·레이아웃 규칙을 스킬에 담아 HTML로 조판한 뒤 Playwright로 렌더링합니다.</p>
+        <p class="detail" data-en="<b>Verification:</b> every number and date is checked against the source, and every rendered card is reviewed before publishing. The workflow is fixed as a skill — brand colors and layout rules live in the skill, pages are typeset in HTML and rendered with Playwright."><b>검증:</b> 발행 전에 수치·날짜를 원문과 대조하고 렌더링 결과를 전수 확인합니다. 비자·정책 뉴스를 카드뉴스 세트로 만드는 작업을 스킬로 고정 — 브랜드 색·레이아웃 규칙을 스킬에 담아 HTML로 조판한 뒤 Playwright로 렌더링합니다.</p>
       </details>
 
       <details class="auto-row">
         <summary>
-          <span class="subject">국가별 유학 안내 사이트 데이터 구축·배포</span>
-          <span class="tools">Claude Cowork (조사·교차검증) + Claude Code (구현)</span>
-          <span class="shift"><span class="mobile-label">Before → After</span>수작업 3일 → <span class="after">4~5시간</span></span>
-          <span class="save"><span class="mobile-label">절감</span>사이트 5종 배포 완주</span>
+          <span class="subject" data-en="Country study-guide sites — data build &amp; deployment">국가별 유학 안내 사이트 데이터 구축·배포</span>
+          <span class="tools" data-en="Claude Cowork (research &amp; cross-check) + Claude Code (build)">Claude Cowork (조사·교차검증) + Claude Code (구현)</span>
+          <span class="shift" data-en="<span class='mobile-label'>Before → After</span>Manual ~3 days → <span class='after'>4–5 h</span>"><span class="mobile-label">Before → After</span>수작업 3일 → <span class="after">4~5시간</span></span>
+          <span class="save" data-en="<span class='mobile-label'>Saved</span>5 sites shipped"><span class="mobile-label">절감</span>사이트 5종 배포 완주</span>
         </summary>
-        <p class="detail"><b>검증:</b> 수집한 진학 요건·학비 데이터를 각 대학 공식 페이지와 대조해 확인한 뒤 반영했습니다. Cowork로 조사하고 Claude Code로 구현해 GitHub Pages에 배포 — 미국·영국·호주·캐나다 진단 사이트와 허브까지 5종을 완주했습니다.</p>
+        <p class="detail" data-en="<b>Verification:</b> collected admission and tuition data was checked against each university's official pages before going live. Researched with Cowork, built with Claude Code, deployed on GitHub Pages — five sites across the US, UK, Australia and Canada plus the hub."><b>검증:</b> 수집한 진학 요건·학비 데이터를 각 대학 공식 페이지와 대조해 확인한 뒤 반영했습니다. Cowork로 조사하고 Claude Code로 구현해 GitHub Pages에 배포 — 미국·영국·호주·캐나다 진단 사이트와 허브까지 5종을 완주했습니다.</p>
       </details>
 
       <details class="auto-row">
         <summary>
-          <span class="subject">네이버 블로그 원고 생산 (검수 포함)</span>
-          <span class="tools">Claude 스킬 (SEO 구조화 + 문체 검수)</span>
-          <span class="shift"><span class="mobile-label">Before → After</span>편당 2~3시간 → <span class="after">30분</span></span>
-          <span class="save"><span class="mobile-label">절감</span>편당 약 2시간</span>
+          <span class="subject" data-en="Naver blog articles (review included)">네이버 블로그 원고 생산 (검수 포함)</span>
+          <span class="tools" data-en="Claude skill (SEO structure + style review)">Claude 스킬 (SEO 구조화 + 문체 검수)</span>
+          <span class="shift" data-en="<span class='mobile-label'>Before → After</span>2–3 h → <span class='after'>30 min</span> per post"><span class="mobile-label">Before → After</span>편당 2~3시간 → <span class="after">30분</span></span>
+          <span class="save" data-en="<span class='mobile-label'>Saved</span>~2 h per post"><span class="mobile-label">절감</span>편당 약 2시간</span>
         </summary>
-        <p class="detail"><b>검증:</b> 인용하는 수치는 출처 페이지에서 직접 확인하고, AI 문형을 걸러내는 검수 단계를 거쳐 발행합니다. 네이버 SEO 구조와 문체 규칙을 스킬로 만들어 초안을 뽑습니다.</p>
+        <p class="detail" data-en="<b>Verification:</b> quoted figures are confirmed on the source page, and drafts pass a review step that removes AI-sounding patterns before publishing. Naver SEO structure and style rules are packaged as a skill that produces the first draft."><b>검증:</b> 인용하는 수치는 출처 페이지에서 직접 확인하고, AI 문형을 걸러내는 검수 단계를 거쳐 발행합니다. 네이버 SEO 구조와 문체 규칙을 스킬로 만들어 초안을 뽑습니다.</p>
       </details>
 
       <details class="auto-row">
         <summary>
-          <span class="subject">쇼츠용 9:16 데이터 그래픽 제작</span>
-          <span class="tools">Claude 스킬 + Playwright 렌더링</span>
-          <span class="shift"><span class="mobile-label">Before → After</span>컷당 2~3시간 → <span class="after">30분</span></span>
-          <span class="save"><span class="mobile-label">절감</span>컷당 약 2시간</span>
+          <span class="subject" data-en="9:16 data graphics for Shorts">쇼츠용 9:16 데이터 그래픽 제작</span>
+          <span class="tools" data-en="Claude skill + Playwright rendering">Claude 스킬 + Playwright 렌더링</span>
+          <span class="shift" data-en="<span class='mobile-label'>Before → After</span>2–3 h → <span class='after'>30 min</span> per cut"><span class="mobile-label">Before → After</span>컷당 2~3시간 → <span class="after">30분</span></span>
+          <span class="save" data-en="<span class='mobile-label'>Saved</span>~2 h per cut"><span class="mobile-label">절감</span>컷당 약 2시간</span>
         </summary>
-        <p class="detail"><b>검증:</b> 수치는 대본의 출처와 대조한 뒤 렌더링합니다. 쇼츠 대본의 화면 지시를 표·그래프·타임라인 카드(1080×1920)로 변환 — 서술형 정보를 데이터 그래픽으로 재구성합니다.</p>
+        <p class="detail" data-en="<b>Verification:</b> figures are checked against the script's sources before rendering. Screen directions in a Shorts script become tables, charts and timeline cards (1080×1920) — narrative facts restructured as data graphics."><b>검증:</b> 수치는 대본의 출처와 대조한 뒤 렌더링합니다. 쇼츠 대본의 화면 지시를 표·그래프·타임라인 카드(1080×1920)로 변환 — 서술형 정보를 데이터 그래픽으로 재구성합니다.</p>
       </details>
 
       <details class="auto-row">
         <summary>
-          <span class="subject">출국 전 오리엔테이션 반복 안내</span>
-          <span class="tools">Notion 시스템 (영국·캐나다·호주 3개국)</span>
-          <span class="shift"><span class="mobile-label">Before → After</span>구두 안내 1시간/건 → <span class="after">셀프 안내</span></span>
-          <span class="save"><span class="mobile-label">절감</span>건당 40분</span>
+          <span class="subject" data-en="Pre-departure orientation briefings">출국 전 오리엔테이션 반복 안내</span>
+          <span class="tools" data-en="Notion system (UK · Canada · Australia)">Notion 시스템 (영국·캐나다·호주 3개국)</span>
+          <span class="shift" data-en="<span class='mobile-label'>Before → After</span>1 h per case → <span class='after'>self-serve</span>"><span class="mobile-label">Before → After</span>구두 안내 1시간/건 → <span class="after">셀프 안내</span></span>
+          <span class="save" data-en="<span class='mobile-label'>Saved</span>40 min per case"><span class="mobile-label">절감</span>건당 40분</span>
         </summary>
-        <p class="detail"><b>검증:</b> 학생이 스스로 읽고 확인 사항만 상담으로 남겨, 건당 확인 시간은 20분 수준으로 줄었습니다. 상담원이 매번 1시간씩 구두로 반복하던 출국 전 안내를 국가별 Notion 문서 체계로 코드 없이 표준화해, 안내 누락을 구조적으로 방지합니다.</p>
+        <p class="detail" data-en="<b>Verification:</b> students read the guide themselves and consultations cover only open questions — about 20 minutes per case. A briefing once repeated verbally for an hour is standardized as a per-country Notion document system, built without code, so nothing gets left out."><b>검증:</b> 학생이 스스로 읽고 확인 사항만 상담으로 남겨, 건당 확인 시간은 20분 수준으로 줄었습니다. 상담원이 매번 1시간씩 구두로 반복하던 출국 전 안내를 국가별 Notion 문서 체계로 코드 없이 표준화해, 안내 누락을 구조적으로 방지합니다.</p>
       </details>
 
       <details class="auto-row demo">
         <summary>
-          <span class="subject">논문 인용–원문 대조 검수 (데모)<br><a class="demo-link" href="ref-check/" data-url="jaebong-choi.github.io/automation-portfolio/ref-check">데모 페이지 →</a></span>
-          <span class="tools">Claude (원고·원문 대조)</span>
-          <span class="shift"><span class="mobile-label">Before → After</span>수작업 전수 대조 → <span class="after">자동 리포트</span></span>
-          <span class="save"><span class="mobile-label">절감</span>가상 인용 6건 → 리포트 1건</span>
+          <span class="subject"><span data-en="Citation–source verification (demo)">논문 인용–원문 대조 검수 (데모)</span><br><a class="demo-link" href="ref-check/" data-url="jaebong-choi.github.io/automation-portfolio/ref-check" data-en="Demo page →">데모 페이지 →</a></span>
+          <span class="tools" data-en="Claude (manuscript–source comparison)">Claude (원고·원문 대조)</span>
+          <span class="shift" data-en="<span class='mobile-label'>Before → After</span>Manual full check → <span class='after'>auto report</span>"><span class="mobile-label">Before → After</span>수작업 전수 대조 → <span class="after">자동 리포트</span></span>
+          <span class="save" data-en="<span class='mobile-label'>Saved</span>6 sample citations → 1 report"><span class="mobile-label">절감</span>가상 인용 6건 → 리포트 1건</span>
         </summary>
-        <p class="detail"><b>검증:</b> 판정마다 원문 구절과 근거를 함께 남기고, 최종 판단은 사람이 합니다. 가상 원고 1건의 인용 6건을 참고문헌 원문과 대조해 수치·통계·조건 불일치를 리포트로 만든 데모입니다.</p>
+        <p class="detail" data-en="<b>Verification:</b> every verdict carries the source passage and a one-line rationale; final judgment stays with a human. A demo that checks six citations in a fictional manuscript against their references for numeric, statistical and conditional mismatches."><b>검증:</b> 판정마다 원문 구절과 근거를 함께 남기고, 최종 판단은 사람이 합니다. 가상 원고 1건의 인용 6건을 참고문헌 원문과 대조해 수치·통계·조건 불일치를 리포트로 만든 데모입니다.</p>
       </details>
 
       <details class="auto-row demo">
         <summary>
-          <span class="subject">저널 투고 전 점검·서식 변환 (데모)<br><a class="demo-link" href="submit-check/" data-url="jaebong-choi.github.io/automation-portfolio/submit-check">데모 페이지 →</a></span>
-          <span class="tools">Claude (서식 변환·점검 리포트)</span>
-          <span class="shift"><span class="mobile-label">Before → After</span>수작업 점검 → <span class="after">자동 점검 리포트</span></span>
-          <span class="save"><span class="mobile-label">절감</span>가상 원고 1건 · 10항목 점검</span>
+          <span class="subject"><span data-en="Journal pre-submission check &amp; reformatting (demo)">저널 투고 전 점검·서식 변환 (데모)</span><br><a class="demo-link" href="submit-check/" data-url="jaebong-choi.github.io/automation-portfolio/submit-check" data-en="Demo page →">데모 페이지 →</a></span>
+          <span class="tools" data-en="Claude (reformatting · checklist report)">Claude (서식 변환·점검 리포트)</span>
+          <span class="shift" data-en="<span class='mobile-label'>Before → After</span>Manual check → <span class='after'>auto checklist</span>"><span class="mobile-label">Before → After</span>수작업 점검 → <span class="after">자동 점검 리포트</span></span>
+          <span class="save" data-en="<span class='mobile-label'>Saved</span>1 sample manuscript · 10 checks"><span class="mobile-label">절감</span>가상 원고 1건 · 10항목 점검</span>
         </summary>
-        <p class="detail"><b>검증:</b> 점검 항목마다 통과/수정 필요 판정과 근거를 한 줄씩 남깁니다. 가상 원고 1건을 가상 저널 투고 규정에 대조해 참고문헌 서식 변환(저자–연도 → 번호식)과 투고 전 10항목 점검 리포트를 만든 데모입니다.</p>
+        <p class="detail" data-en="<b>Verification:</b> each item gets a pass/fix verdict with a one-line rationale. A demo that checks a fictional manuscript against a fictional journal's guidelines — reference reformatting (author–year → numbered) plus a 10-item pre-submission report."><b>검증:</b> 점검 항목마다 통과/수정 필요 판정과 근거를 한 줄씩 남깁니다. 가상 원고 1건을 가상 저널 투고 규정에 대조해 참고문헌 서식 변환(저자–연도 → 번호식)과 투고 전 10항목 점검 리포트를 만든 데모입니다.</p>
       </details>
     </div>
   </div>
@@ -514,27 +574,27 @@ footer { border-top: 1px solid var(--line); padding: 30px 0 52px; font-size: 0.8
 <!-- S3 대표 사례 딥다이브 -->
 <section id="deep" class="deep fade">
   <div class="wrap">
-    <h2>대표 사례 — 영국 대학 진학 데이터: 조사 → 검증 → 사이트 완주</h2>
-    <p class="sec-cap">한 건을 처음부터 끝까지. 어떤 단계로 완주했는지가 이 사례의 핵심입니다.</p>
+    <h2 data-en="Case Study — UK University Data: Research → Verify → Ship">대표 사례 — 영국 대학 진학 데이터: 조사 → 검증 → 사이트 완주</h2>
+    <p class="sec-cap" data-en="One project end to end. The steps are the point.">한 건을 처음부터 끝까지. 어떤 단계로 완주했는지가 이 사례의 핵심입니다.</p>
 
     <ol class="steps">
-      <li><b>범위 정의</b><small>QS 세계 100위 이내 16개교를 포함한 영국 대학 47개교</small></li>
-      <li><b>Claude Cowork로 조사</b><small>학부 진학 경로(파운데이션·IYO)·전공·요건 데이터 수집</small></li>
-      <li><b>교차 검증</b><small>각 대학 공식 페이지와 대조해 수치·요건 확인</small></li>
-      <li><b>데이터 구조화</b><small>사이트에서 쓸 수 있는 스키마로 정리</small></li>
-      <li><b>Claude Code로 구현</b><small>단일 페이지 진단 사이트로 개발</small></li>
-      <li><b>GitHub Pages 배포</b><small>jaebong-choi.github.io/uk-study-guide</small></li>
+      <li><b data-en="Scope">범위 정의</b><small data-en="47 UK universities, including 16 in the QS world top 100">QS 세계 100위 이내 16개교를 포함한 영국 대학 47개교</small></li>
+      <li><b data-en="Research with Claude Cowork">Claude Cowork로 조사</b><small data-en="Undergraduate pathways (foundation · IYO), majors, requirements">학부 진학 경로(파운데이션·IYO)·전공·요건 데이터 수집</small></li>
+      <li><b data-en="Cross-verification">교차 검증</b><small data-en="Figures and requirements checked against each university's official pages">각 대학 공식 페이지와 대조해 수치·요건 확인</small></li>
+      <li><b data-en="Data structuring">데이터 구조화</b><small data-en="Organized into a site-ready schema">사이트에서 쓸 수 있는 스키마로 정리</small></li>
+      <li><b data-en="Built with Claude Code">Claude Code로 구현</b><small data-en="Single-page diagnostic site">단일 페이지 진단 사이트로 개발</small></li>
+      <li><b data-en="Deployed on GitHub Pages">GitHub Pages 배포</b><small>jaebong-choi.github.io/uk-study-guide</small></li>
     </ol>
 
     <div class="metric-cards">
-      <div class="card"><div class="num">47교</div><div class="label">수록 대학</div></div>
-      <div class="card"><div class="num">약 800건</div><div class="label">데이터 포인트</div></div>
-      <div class="card"><div class="num">약 1주</div><div class="label">조사~배포</div></div>
+      <div class="card"><div class="num" data-en="47">47교</div><div class="label" data-en="universities listed">수록 대학</div></div>
+      <div class="card"><div class="num" data-en="~800">약 800건</div><div class="label" data-en="data points">데이터 포인트</div></div>
+      <div class="card"><div class="num" data-en="~1 week">약 1주</div><div class="label" data-en="research to launch">조사~배포</div></div>
     </div>
 
-    <p class="bridge">대량 정보 수집 — 정확성 검증 — 체계화 — 완주. 연구행정 실무와 같은 구조의 작업입니다.</p>
+    <p class="bridge" data-en="Large-scale collection — accuracy checks — structuring — completion. The same shape as research-administration work.">대량 정보 수집 — 정확성 검증 — 체계화 — 완주. 연구행정 실무와 같은 구조의 작업입니다.</p>
 
-    <p class="deep-links"><a class="visit" href="https://jaebong-choi.github.io/uk-study-guide/" data-url="jaebong-choi.github.io/uk-study-guide">배포된 사이트 열기</a></p>
+    <p class="deep-links"><a class="visit" href="https://jaebong-choi.github.io/uk-study-guide/" data-url="jaebong-choi.github.io/uk-study-guide" data-en="Open the live site">배포된 사이트 열기</a></p>
     <img class="deep-shot" src="assets/uk.webp" alt="영국 대학 진학 안내 사이트 화면" loading="lazy" width="1280" height="800">
   </div>
 </section>
@@ -542,40 +602,40 @@ footer { border-top: 1px solid var(--line); padding: 30px 0 52px; font-size: 0.8
 <!-- S4 제작물 갤러리 -->
 <section id="gallery" class="fade">
   <div class="wrap">
-    <h2>제작물</h2>
-    <p class="sec-cap">전부 실제 배포되어 있는 링크입니다.</p>
+    <h2 data-en="Work">제작물</h2>
+    <p class="sec-cap" data-en="Every link is live.">전부 실제 배포되어 있는 링크입니다.</p>
     <div class="gallery">
       <a class="item" href="ref-check/">
         <img src="assets/ref-demo.webp" alt="논문 인용–원문 대조 검수 데모" loading="lazy" width="1280" height="800">
-        <div class="cap"><b data-url="jaebong-choi.github.io/automation-portfolio/ref-check">인용–원문 대조 검수 데모</b><small>가상 샘플 6건 검수 리포트 시연</small><br><span class="tag">Claude 데모</span></div>
+        <div class="cap"><b data-url="jaebong-choi.github.io/automation-portfolio/ref-check" data-en="Citation–source verification demo">인용–원문 대조 검수 데모</b><small data-en="Six fictional citations, one review report">가상 샘플 6건 검수 리포트 시연</small><br><span class="tag" data-en="Claude demo">Claude 데모</span></div>
       </a>
       <a class="item" href="submit-check/">
         <img src="assets/submit-demo.webp" alt="저널 투고 전 점검 데모" loading="lazy" width="1280" height="800">
-        <div class="cap"><b data-url="jaebong-choi.github.io/automation-portfolio/submit-check">투고 전 점검·서식 변환 데모</b><small>가상 원고 규정 대조 리포트 시연</small><br><span class="tag">Claude 데모</span></div>
+        <div class="cap"><b data-url="jaebong-choi.github.io/automation-portfolio/submit-check" data-en="Pre-submission check &amp; reformatting demo">투고 전 점검·서식 변환 데모</b><small data-en="Fictional manuscript vs. journal guidelines">가상 원고 규정 대조 리포트 시연</small><br><span class="tag" data-en="Claude demo">Claude 데모</span></div>
       </a>
       <a class="item" href="https://jaebong-choi.github.io/uk-study-guide/">
         <img src="assets/uk.webp" alt="영국 대학 진학 안내" loading="lazy" width="1280" height="800">
-        <div class="cap"><b data-url="jaebong-choi.github.io/uk-study-guide">영국 대학 진학 안내</b><small>47개교 학부 진학 경로 진단</small><br><span class="tag">Cowork + Code</span></div>
+        <div class="cap"><b data-url="jaebong-choi.github.io/uk-study-guide" data-en="UK university pathways">영국 대학 진학 안내</b><small data-en="Pathway diagnostics for 47 universities">47개교 학부 진학 경로 진단</small><br><span class="tag">Cowork + Code</span></div>
       </a>
       <a class="item" href="https://jaebong-choi.github.io/au-study-guide/">
         <img src="assets/au.webp" alt="호주 진학 안내" loading="lazy" width="1280" height="800">
-        <div class="cap"><b data-url="jaebong-choi.github.io/au-study-guide">호주 진학 안내</b><small>학부·석사 두 트랙 진학 진단</small><br><span class="tag">Cowork + Code</span></div>
+        <div class="cap"><b data-url="jaebong-choi.github.io/au-study-guide" data-en="Australia study guide">호주 진학 안내</b><small data-en="Bachelor and Master track diagnostics">학부·석사 두 트랙 진학 진단</small><br><span class="tag">Cowork + Code</span></div>
       </a>
       <a class="item" href="https://jaebong-choi.github.io/ca-study-guide/">
         <img src="assets/ca.webp" alt="캐나다 컬리지 진학 안내" loading="lazy" width="1280" height="800">
-        <div class="cap"><b data-url="jaebong-choi.github.io/ca-study-guide">캐나다 컬리지 진학 안내</b><small>커리어·이민, 대학 편입 트랙 진단</small><br><span class="tag">Cowork + Code</span></div>
+        <div class="cap"><b data-url="jaebong-choi.github.io/ca-study-guide" data-en="Canada college guide">캐나다 컬리지 진학 안내</b><small data-en="Career-immigration and transfer tracks">커리어·이민, 대학 편입 트랙 진단</small><br><span class="tag">Cowork + Code</span></div>
       </a>
       <a class="item" href="https://jaebong-choi.github.io/us-study-guide/">
         <img src="assets/us.webp" alt="미국 유학 진단" loading="lazy" width="1280" height="800">
-        <div class="cap"><b data-url="jaebong-choi.github.io/us-study-guide">미국 유학 진단</b><small>Direct·패스웨이·2+2 경로 진단</small><br><span class="tag">Cowork + Code</span></div>
+        <div class="cap"><b data-url="jaebong-choi.github.io/us-study-guide" data-en="US study diagnostics">미국 유학 진단</b><small data-en="Direct, pathway and 2+2 routes">Direct·패스웨이·2+2 경로 진단</small><br><span class="tag">Cowork + Code</span></div>
       </a>
       <a class="item" href="https://jaebong-choi.github.io/study-guide-hub/">
         <img src="assets/hub.webp" alt="유학 진단 허브" loading="lazy" width="1280" height="800">
-        <div class="cap"><b data-url="jaebong-choi.github.io/study-guide-hub">유학 진단 허브</b><small>4개국 진단을 묶은 관문 사이트</small><br><span class="tag">Cowork + Code</span></div>
+        <div class="cap"><b data-url="jaebong-choi.github.io/study-guide-hub" data-en="Study Guide Hub">유학 진단 허브</b><small data-en="Gateway to all four country diagnostics">4개국 진단을 묶은 관문 사이트</small><br><span class="tag">Cowork + Code</span></div>
       </a>
       <a class="item" href="https://jaebong-portfolio.vercel.app/general/">
         <img src="assets/portfolio.webp" alt="종합 포트폴리오" loading="lazy" width="1280" height="800">
-        <div class="cap"><b data-url="jaebong-portfolio.vercel.app/general">종합 포트폴리오</b><small>영상·웹·카드뉴스 전체 작업 모음</small><br><span class="tag">Vercel</span></div>
+        <div class="cap"><b data-url="jaebong-portfolio.vercel.app/general" data-en="Full portfolio">종합 포트폴리오</b><small data-en="Video, web and card-news work">영상·웹·카드뉴스 전체 작업 모음</small><br><span class="tag">Vercel</span></div>
       </a>
     </div>
   </div>
@@ -584,30 +644,30 @@ footer { border-top: 1px solid var(--line); padding: 30px 0 52px; font-size: 0.8
 <!-- S5 도구 스택 -->
 <section id="stack" class="stack fade">
   <div class="wrap">
-    <h2>도구 스택</h2>
-    <p class="sec-cap">코딩 전공이 아니라, 도구를 업무에 붙여 쓰는 실무자입니다.</p>
+    <h2 data-en="Tools">도구 스택</h2>
+    <p class="sec-cap" data-en="Not a developer by training — a practitioner who wires tools into workflows.">코딩 전공이 아니라, 도구를 업무에 붙여 쓰는 실무자입니다.</p>
     <dl>
-      <dt>AI</dt><dd>Claude (웹 · Code · Cowork · 커스텀 스킬 약 20종 운영), ChatGPT</dd>
-      <dt>자동화</dt><dd>Python/Playwright (HTML→이미지 렌더링)</dd>
-      <dt>배포</dt><dd>GitHub · GitHub Pages · Vercel</dd>
-      <dt>운영</dt><dd>Notion</dd>
-      <dt>콘텐츠</dt><dd>Adobe Premiere Pro · Photoshop</dd>
+      <dt>AI</dt><dd data-en="Claude (web · Code · Cowork · ~20 custom skills), ChatGPT">Claude (웹 · Code · Cowork · 커스텀 스킬 약 20종 운영), ChatGPT</dd>
+      <dt data-en="Automation">자동화</dt><dd data-en="Python/Playwright (HTML→image rendering)">Python/Playwright (HTML→이미지 렌더링)</dd>
+      <dt data-en="Deploy">배포</dt><dd>GitHub · GitHub Pages · Vercel</dd>
+      <dt data-en="Ops">운영</dt><dd>Notion</dd>
+      <dt data-en="Content">콘텐츠</dt><dd>Adobe Premiere Pro · Photoshop</dd>
     </dl>
-    <p class="way">커스텀 스킬은 코드가 아니라 자연어 지침으로 만든 자동화 모듈입니다. 반복 작업은 스킬로 고정해 두고, 산출물은 배포까지 완주해 링크로 남깁니다.</p>
+    <p class="way" data-en="Custom skills are automation modules written in natural language, not code. Repetitive work is fixed as skills, and every deliverable ships to a link.">커스텀 스킬은 코드가 아니라 자연어 지침으로 만든 자동화 모듈입니다. 반복 작업은 스킬로 고정해 두고, 산출물은 배포까지 완주해 링크로 남깁니다.</p>
   </div>
 </section>
 
 <!-- S6 검증·품질 습관 -->
 <section id="quality" class="quality fade">
   <div class="wrap">
-    <h2>검증·품질 습관</h2>
-    <p class="sec-cap">AI가 만든 결과물도 검증은 사람이 합니다.</p>
-    <p>유학 수속 실무에서 지원 서류·비자 서류처럼 오류 하나가 결과를 바꾸는 문서를, 건별 마감 일정과 체크리스트로 관리해 왔습니다. 그 기준을 AI 산출물에도 그대로 적용합니다.</p>
+    <h2 data-en="Verification Habits">검증·품질 습관</h2>
+    <p class="sec-cap" data-en="AI makes the draft; a human verifies it.">AI가 만든 결과물도 검증은 사람이 합니다.</p>
+    <p data-en="In study-abroad casework I handled documents where a single error changes the outcome — application and visa files — managed case by case with deadlines and checklists. The same standard applies to AI output.">유학 수속 실무에서 지원 서류·비자 서류처럼 오류 하나가 결과를 바꾸는 문서를, 건별 마감 일정과 체크리스트로 관리해 왔습니다. 그 기준을 AI 산출물에도 그대로 적용합니다.</p>
     <ul>
-      <li>수치·요건은 원출처(공식 페이지)와 대조한다</li>
-      <li>숫자와 날짜는 이중으로 확인한다</li>
-      <li>배포·제출까지 끝내야 완료로 친다</li>
-      <li>샘플 확인이 아니라 전수 확인 — 발행 전 결과물을 한 건씩 끝까지 본다</li>
+      <li data-en="Check figures and requirements against the original source">수치·요건은 원출처(공식 페이지)와 대조한다</li>
+      <li data-en="Double-check every number and date">숫자와 날짜는 이중으로 확인한다</li>
+      <li data-en="Done means deployed or submitted">배포·제출까지 끝내야 완료로 친다</li>
+      <li data-en="Full review, not spot checks — every item, one by one, before release">샘플 확인이 아니라 전수 확인 — 발행 전 결과물을 한 건씩 끝까지 본다</li>
     </ul>
   </div>
 </section>
@@ -615,11 +675,12 @@ footer { border-top: 1px solid var(--line); padding: 30px 0 52px; font-size: 0.8
 <!-- S7 푸터 -->
 <footer>
   <div class="wrap">
-    <p><a href="mailto:cjbong23@hanmail.net">cjbong23@hanmail.net</a> · 최종 업데이트: 2026-08-13</p>
+    <p><a href="mailto:cjbong23@hanmail.net">cjbong23@hanmail.net</a> · <span data-en="Last updated: 2026-08-13">최종 업데이트: 2026-08-13</span></p>
   </div>
 </footer>
 
 <script>
+// 스크롤 페이드
 const els = document.querySelectorAll('.fade');
 if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
   els.forEach(el => el.classList.add('in'));
@@ -629,6 +690,45 @@ if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
   }, { threshold: 0.08 });
   els.forEach(el => io.observe(el));
 }
+
+// 테마 (기본: 라이트)
+const btnTheme = document.getElementById('btn-theme');
+function applyTheme(t) {
+  if (t === 'dark') document.documentElement.dataset.theme = 'dark';
+  else delete document.documentElement.dataset.theme;
+  try { localStorage.setItem('pf-theme', t); } catch (e) {}
+  updateCtrlLabels();
+}
+btnTheme.addEventListener('click', () => {
+  applyTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark');
+});
+
+// 언어 (기본: 한국어)
+const btnKo = document.getElementById('btn-ko');
+const btnEn = document.getElementById('btn-en');
+function applyLang(l) {
+  document.documentElement.lang = l;
+  document.querySelectorAll('[data-en]').forEach(el => {
+    if (!('ko' in el.dataset)) el.dataset.ko = el.innerHTML;
+    el.innerHTML = l === 'en' ? el.dataset.en : el.dataset.ko;
+  });
+  btnKo.classList.toggle('active', l !== 'en');
+  btnEn.classList.toggle('active', l === 'en');
+  try { localStorage.setItem('pf-lang', l); } catch (e) {}
+  updateCtrlLabels();
+}
+btnKo.addEventListener('click', () => applyLang('ko'));
+btnEn.addEventListener('click', () => applyLang('en'));
+
+function updateCtrlLabels() {
+  const en = document.documentElement.lang === 'en';
+  const dark = document.documentElement.dataset.theme === 'dark';
+  btnTheme.textContent = en ? (dark ? 'Light' : 'Dark') : (dark ? '라이트' : '다크');
+}
+
+let savedLang = 'ko';
+try { savedLang = localStorage.getItem('pf-lang') || 'ko'; } catch (e) {}
+applyLang(savedLang);
 </script>
 
 </body>
